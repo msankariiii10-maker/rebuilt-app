@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabaseServerClient';
 import Link from 'next/link';
+import RevealAnimations from '@/components/RevealAnimations';
 
 export const metadata = {
   title: 'This Week — Rebuilt',
@@ -25,6 +26,40 @@ const DAY_NAMES: Record<number, string> = {
   7: 'Sunday',
 };
 
+function DayIcon({ label }: { label: string }) {
+  if (label === 'Lower Body') {
+    return (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+        <path d="M8 3v6l-2 5v7M16 3v6l2 5v7" />
+        <path d="M6 21h4M14 21h4" />
+      </svg>
+    );
+  }
+  if (label === 'Upper Body') {
+    return (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+        <circle cx="6.5" cy="12" r="2.5" />
+        <circle cx="17.5" cy="12" r="2.5" />
+        <path d="M9 12h6M4 9v6M20 9v6" />
+      </svg>
+    );
+  }
+  if (label === 'Mobility') {
+    return (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+        <path d="M21 12a9 9 0 11-3.5-7.1" />
+        <path d="M21 3v5h-5" />
+      </svg>
+    );
+  }
+  // Rest
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+      <path d="M21 12.8A9 9 0 1111.2 3 7 7 0 0021 12.8z" />
+    </svg>
+  );
+}
+
 export default async function WeekPage() {
   const supabase = createClient();
 
@@ -47,36 +82,45 @@ export default async function WeekPage() {
         ];
 
   return (
-    <div id="screen-week" style={{ display: 'block', padding: '32px 24px', maxWidth: 480, margin: '0 auto' }}>
-      <div className="week-header">
-        <span className="eyebrow">This week</span>
-        <h1>Pick a day</h1>
-      </div>
-      <div className="day-list">
-        {days.map((d) =>
-          d.is_rest ? (
-            <div className="day-tile rest" key={d.day_of_week}>
-              <div>
-                <div className="day-name">{DAY_NAMES[d.day_of_week]}</div>
-                <div className="day-label">{d.label}</div>
+    <>
+      <RevealAnimations />
+      <div id="screen-week" style={{ display: 'block', maxWidth: 480, margin: '0 auto' }}>
+        <div className="week-header reveal">
+          <span className="eyebrow">This week</span>
+          <h1>Pick a day</h1>
+        </div>
+        <div className="day-list reveal-stagger">
+          {days.map((d) =>
+            d.is_rest ? (
+              <div className="day-tile rest" key={d.day_of_week}>
+                <div className="day-icon">
+                  <DayIcon label={d.label} />
+                </div>
+                <div className="day-tile-text">
+                  <div className="day-name">{DAY_NAMES[d.day_of_week]}</div>
+                  <div className="day-label">{d.label}</div>
+                </div>
               </div>
-            </div>
-          ) : (
-            <Link
-              href={`/program/day/${DAY_SLUGS[d.day_of_week]}`}
-              className="day-tile"
-              key={d.day_of_week}
-              style={{ textDecoration: 'none' }}
-            >
-              <div>
-                <div className="day-name">{DAY_NAMES[d.day_of_week]}</div>
-                <div className="day-label">{d.label}</div>
-              </div>
-              <span className="arrow">→</span>
-            </Link>
-          )
-        )}
+            ) : (
+              <Link
+                href={`/program/day/${DAY_SLUGS[d.day_of_week]}`}
+                className="day-tile"
+                key={d.day_of_week}
+                style={{ textDecoration: 'none' }}
+              >
+                <div className="day-icon">
+                  <DayIcon label={d.label} />
+                </div>
+                <div className="day-tile-text">
+                  <div className="day-name">{DAY_NAMES[d.day_of_week]}</div>
+                  <div className="day-label">{d.label}</div>
+                </div>
+                <span className="arrow">→</span>
+              </Link>
+            )
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

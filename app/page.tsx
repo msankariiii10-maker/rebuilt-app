@@ -46,7 +46,7 @@ export default function HomePage() {
     <h1 class="headline reveal" style="transition-delay:0.2s; margin:40px auto 16px; max-width:600px;">Build yourself<br>from the <em>ground up.</em></h1>
 
     <div class="hero-ctas reveal" style="transition-delay:0.3s; justify-content:center;">
-      <a href="/checkout" class="btn-primary">Join our community</a>
+      <a href="/signup" class="btn-primary">Join our community</a>
     </div>
   </div>
 </section>

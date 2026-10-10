@@ -127,9 +127,7 @@ export default function CheckoutPage() {
             lineHeight: 1.5,
           }}
         >
-          Secure payment powered by Stripe. You'll be screened with a few
-          quick safety questions right after checkout, before your program
-          begins.
+          Secure payment powered by Stripe.
         </p>
       </div>
     </main>

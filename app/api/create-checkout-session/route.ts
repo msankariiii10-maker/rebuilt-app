@@ -42,7 +42,8 @@ export async function POST(req: NextRequest) {
           quantity: 1,
         },
       ],
-      success_url: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+      // After paying, go straight into the program (no success page).
+      success_url: `${origin}/program`,
       cancel_url: `${origin}/checkout/cancel`,
     });
 

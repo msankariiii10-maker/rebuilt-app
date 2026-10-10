@@ -13,7 +13,8 @@ export default function Nav() {
     <div class="logo">
       <span>Rebu<span class="vert"></span>lt</span>
     </div>
-    <div class="nav-links nav-mobile-hide" style="display:flex; align-items:center; gap:28px;">
+    <div class="nav-links nav-mobile-hide" style="display:flex; align-items:center; gap:18px;">
+      <a href="/login" class="nav-signin">Sign in</a>
       <div style="position:relative;">
         <button onClick="document.getElementById('site-menu').classList.toggle('open')" aria-label="Menu" style="background:none; border:none; cursor:pointer; padding:8px; display:flex; flex-direction:column; gap:5px; justify-content:center; align-items:flex-end;">
           <span style="display:block; width:22px; height:2px; background:#F2F2EE; border-radius:2px;"></span>

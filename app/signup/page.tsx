@@ -34,7 +34,7 @@ export default function SignupPage() {
     }
 
     setLoading(false);
-    router.push('/program');
+    router.push('/checkout');
   }
 
   return (

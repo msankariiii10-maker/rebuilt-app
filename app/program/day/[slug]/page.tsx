@@ -82,10 +82,9 @@ export default function DayExercisePage() {
       data: { user },
     } = await supabase.auth.getUser();
 
-    if (!user) {
-      router.push('/login');
-      return;
-    }
+    // No login wall: anyone who paid can open the days. If someone happens to
+    // be signed in we also load their saved levels; otherwise everyone starts
+    // at level 1.
 
     const { data: weekDayRow } = await supabase
       .from('week_days')
@@ -121,11 +120,13 @@ export default function DayExercisePage() {
 
     const familyIds = programDays.map((d: any) => d.family_id);
 
-    const { data: progressRows } = await supabase
-      .from('user_progress')
-      .select('family_id, current_level')
-      .eq('user_id', user.id)
-      .in('family_id', familyIds);
+    const { data: progressRows } = user
+      ? await supabase
+          .from('user_progress')
+          .select('family_id, current_level')
+          .eq('user_id', user.id)
+          .in('family_id', familyIds)
+      : { data: [] as { family_id: string; current_level: number }[] };
 
     const progressMap = new Map((progressRows ?? []).map((r) => [r.family_id, r.current_level]));
 

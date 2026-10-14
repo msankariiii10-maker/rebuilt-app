@@ -59,7 +59,7 @@ export default function CheckoutPage() {
               color: '#1A1A18',
             }}
           >
-            $19.99
+            $9.99
           </span>
           <span style={{ fontSize: 15, color: '#8C8A83' }}>/ month</span>
         </div>

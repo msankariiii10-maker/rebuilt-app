@@ -27,7 +27,7 @@ const DAY_NAMES: Record<number, string> = {
 };
 
 function DayIcon({ label }: { label: string }) {
-  if (label === 'Lower Body') {
+  if (label === 'Lower Back') {
     return (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
         <path d="M8 3v6l-2 5v7M16 3v6l2 5v7" />
@@ -68,7 +68,7 @@ export default async function WeekPage() {
     .select('day_of_week, label, is_rest')
     .order('day_of_week');
 
-  const days =
+  const rawDays =
     weekDays && weekDays.length > 0
       ? weekDays
       : [
@@ -80,6 +80,12 @@ export default async function WeekPage() {
           { day_of_week: 6, label: 'Mobility', is_rest: false },
           { day_of_week: 7, label: 'Rest', is_rest: true },
         ];
+
+  // The program is Lower Back + Mobility only: show "Lower Body" as
+  // "Lower Back" and hide the Upper Body days.
+  const days = rawDays
+    .filter((d) => d.label !== 'Upper Body')
+    .map((d) => (d.label === 'Lower Body' ? { ...d, label: 'Lower Back' } : d));
 
   return (
     <>

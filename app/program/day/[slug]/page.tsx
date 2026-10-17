@@ -16,10 +16,10 @@ const DAY_TO_NUMBER: Record<string, number> = {
 };
 
 const DAY_LABEL_FALLBACK: Record<number, string> = {
-  1: 'Lower Body',
+  1: 'Lower Back',
   2: 'Upper Body',
   3: 'Mobility',
-  4: 'Lower Body',
+  4: 'Lower Back',
   5: 'Upper Body',
   6: 'Mobility',
   7: 'Rest',
@@ -41,7 +41,7 @@ type TodayExercise = {
 
 type PainLogEntry = { logged_at: string; pain_score: number };
 
-type Tab = 'today' | 'progress' | 'painlog' | 'profile';
+type Tab = 'today' | 'progress' | 'painlog';
 
 export default function DayExercisePage() {
   const router = useRouter();
@@ -91,7 +91,7 @@ export default function DayExercisePage() {
       .select('label')
       .eq('day_of_week', dayOfWeek)
       .single();
-    if (weekDayRow?.label) setDayLabel(weekDayRow.label);
+    if (weekDayRow?.label) setDayLabel(weekDayRow.label === 'Lower Body' ? 'Lower Back' : weekDayRow.label);
 
     const { data: program } = await supabase
       .from('programs')
@@ -197,7 +197,6 @@ export default function DayExercisePage() {
     setActiveTab(tab);
     if (tab === 'progress') loadProgress();
     if (tab === 'painlog') loadPainLogs();
-    if (tab === 'profile') loadProfile();
   }
 
   // ---------- Progress ----------
@@ -373,9 +372,6 @@ export default function DayExercisePage() {
         <div className={`tab${activeTab === 'painlog' ? ' active' : ''}`} onClick={() => switchTab('painlog')}>
           Pain log
         </div>
-        <div className={`tab${activeTab === 'profile' ? ' active' : ''}`} onClick={() => switchTab('profile')}>
-          Profile
-        </div>
       </div>
 
       <div className="dash-body">
@@ -502,29 +498,6 @@ export default function DayExercisePage() {
                 );
               })}
             </div>
-          </div>
-        )}
-
-        {activeTab === 'profile' && (
-          <div className="tab-panel">
-            <div className="dash-title-row">
-              <h2>Profile</h2>
-              <p>Your account details</p>
-            </div>
-            <div className="profile-field">
-              <label>Name</label>
-              <input type="text" value={profileName} onChange={(e) => setProfileName(e.target.value)} placeholder="Your name" />
-            </div>
-            <div className="profile-field">
-              <label>Email</label>
-              <input type="email" value={profileEmail} disabled placeholder="you@example.com" />
-            </div>
-            <button className="profile-save" onClick={saveProfile}>
-              Save
-            </button>
-            <button className="profile-signout" onClick={signOut}>
-              Sign out
-            </button>
           </div>
         )}
       </div>

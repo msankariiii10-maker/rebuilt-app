@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabaseClient';
+import { useScene } from '@/components/SceneShell';
 
 const DAY_TO_NUMBER: Record<string, number> = {
   monday: 1,
@@ -17,13 +18,30 @@ const DAY_TO_NUMBER: Record<string, number> = {
 
 const DAY_LABEL_FALLBACK: Record<number, string> = {
   1: 'Lower Back',
-  2: 'Upper Body',
+  2: 'Lower Back',
   3: 'Mobility',
   4: 'Lower Back',
-  5: 'Upper Body',
+  5: 'Lower Back',
   6: 'Mobility',
   7: 'Rest',
 };
+
+
+const SIL: Record<string, string> = {
+  ext: '<g class="tor"><circle class="h" cx="34" cy="14" r="6"/><path class="b" d="M34 22 L34 52"/><path class="b acc" d="M34 28 L24 40 M34 28 L44 40"/></g><path class="b" d="M34 52 L28 78 M34 52 L42 78"/>',
+  lift: '<circle class="h" cx="34" cy="14" r="6"/><path class="b" d="M34 22 L34 52"/><path class="b" d="M34 28 L24 42 M34 28 L44 42"/><g class="lg"><path class="b acc" d="M34 52 L40 78"/></g><path class="b" d="M34 52 L28 78"/>',
+  walk: '<circle class="h" cx="34" cy="14" r="6"/><path class="b" d="M34 22 L34 52"/><path class="b" d="M34 28 L26 44 M34 28 L42 44"/><g class="lgA"><path class="b acc" d="M34 52 L34 78"/></g><g class="lgB"><path class="b" d="M34 52 L34 78"/></g>',
+  twist: '<g class="tor"><circle class="h" cx="34" cy="14" r="6"/><path class="b" d="M34 22 L34 52"/><path class="b acc" d="M22 32 L46 32"/></g><path class="b" d="M34 52 L28 78 M34 52 L42 78"/>',
+};
+
+// picks which little animated figure to show for an exercise, from its name
+function silhouetteFor(name: string): 'ext' | 'lift' | 'walk' | 'twist' {
+  const n = name.toLowerCase();
+  if (n.includes('walk')) return 'walk';
+  if (n.includes('extension') || n.includes('good morning') || n.includes('hyper')) return 'ext';
+  if (n.includes('rotation') || n.includes('cat') || n.includes('twist') || n.includes('mobility')) return 'twist';
+  return 'lift';
+}
 
 type TodayExercise = {
   family_id: string;
@@ -47,6 +65,7 @@ export default function DayExercisePage() {
   const router = useRouter();
   const params = useParams();
   const supabase = createClient();
+  const scene = useScene();
   const slug = (params.slug as string)?.toLowerCase();
   const dayOfWeek = DAY_TO_NUMBER[slug] ?? 1;
 
@@ -71,6 +90,13 @@ export default function DayExercisePage() {
   const [profileEmail, setProfileEmail] = useState('');
 
   useEffect(() => {
+    // the camera pulls back from the lumbar close-up and settles beside the exercises
+    scene.shot('session', 1500);
+    scene.align(1, 900);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     loadDay();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug]);
@@ -91,7 +117,7 @@ export default function DayExercisePage() {
       .select('label')
       .eq('day_of_week', dayOfWeek)
       .single();
-    if (weekDayRow?.label) setDayLabel(weekDayRow.label === 'Lower Body' ? 'Lower Back' : weekDayRow.label);
+    if (weekDayRow?.label) setDayLabel(weekDayRow.label === 'Lower Body' || weekDayRow.label === 'Upper Body' ? 'Lower Back' : weekDayRow.label);
 
     const { data: program } = await supabase
       .from('programs')
@@ -161,6 +187,10 @@ export default function DayExercisePage() {
   }
 
   async function markComplete(ex: TodayExercise) {
+    // Show it as done straight away; save it to the account only if signed in.
+    setCompletedToday((prev) => new Set(prev).add(ex.family_id));
+    scene.burst(0.8);
+
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -171,8 +201,6 @@ export default function DayExercisePage() {
       family_id: ex.family_id,
       level_completed: ex.current_level,
     });
-
-    setCompletedToday((prev) => new Set(prev).add(ex.family_id));
   }
 
   async function levelUp(ex: TodayExercise) {
@@ -318,118 +346,120 @@ export default function DayExercisePage() {
     router.push('/login');
   }
 
-  if (loading) {
-    return (
-      <div
-        style={{
-          minHeight: 'calc(100vh - 70px)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: 'var(--text-secondary)',
-          fontSize: 14,
-          gap: 10,
-        }}
-      >
-        <span
-          style={{
-            width: 16,
-            height: 16,
-            border: '2px solid var(--border)',
-            borderTopColor: 'var(--primary)',
-            borderRadius: '50%',
-            display: 'inline-block',
-            animation: 'spin 0.7s linear infinite',
-          }}
-        />
-        Loading today&apos;s session…
-        <style>{`@keyframes spin{ to{ transform:rotate(360deg); } }`}</style>
-      </div>
-    );
-  }
-
   const dayName = slug ? slug.charAt(0).toUpperCase() + slug.slice(1) : '';
+  const total = exercises.length;
+  const done = exercises.filter((e) => completedToday.has(e.family_id)).length;
+
+  // progress line: grows down to the last completed exercise
+  const exRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [fillH, setFillH] = useState(0);
+  useLayoutEffect(() => {
+    let last = -1;
+    exercises.forEach((e, i) => {
+      if (completedToday.has(e.family_id)) last = i;
+    });
+    const el = last >= 0 ? exRefs.current[last] : null;
+    setFillH(el ? el.offsetTop : 0);
+  }, [completedToday, exercises, activeTab, loading]);
+
+  useEffect(() => {
+    if (total > 0 && done === total) scene.burst(1.6);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done, total]);
 
   return (
-    <div id="screen-dashboard" style={{ minHeight: 'calc(100vh - 70px)' }}>
-      <div className="dash-top">
-        <Link href="/program/week" className="back-btn" aria-label="Back to week view">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-            <path d="M15 18l-6-6 6-6" />
-          </svg>
+    <div className="rb-layer">
+      <div className="rb-col wide">
+        <Link href="/program/week" className="rb-back">
+          ← Days
         </Link>
-        <span className="dash-logo">Rebuilt</span>
-        <span className="dash-day">{dayName.toUpperCase()}</span>
-      </div>
 
-      <div className="top-nav-tabs">
-        <div className={`tab${activeTab === 'today' ? ' active' : ''}`} onClick={() => switchTab('today')}>
-          Today
+        <div className="rb-tabs">
+          <div className={`rb-tab${activeTab === 'today' ? ' active' : ''}`} onClick={() => switchTab('today')}>
+            Today
+          </div>
+          <div className={`rb-tab${activeTab === 'progress' ? ' active' : ''}`} onClick={() => switchTab('progress')}>
+            Progress
+          </div>
+          <div className={`rb-tab${activeTab === 'painlog' ? ' active' : ''}`} onClick={() => switchTab('painlog')}>
+            Pain log
+          </div>
         </div>
-        <div className={`tab${activeTab === 'progress' ? ' active' : ''}`} onClick={() => switchTab('progress')}>
-          Progress
-        </div>
-        <div className={`tab${activeTab === 'painlog' ? ' active' : ''}`} onClick={() => switchTab('painlog')}>
-          Pain log
-        </div>
-      </div>
 
-      <div className="dash-body">
         {activeTab === 'today' && (
-          <div className="tab-panel">
-            <div className="dash-title-row">
-              <h2>{dayLabel}</h2>
-              {exercises.length > 0 && <p>{exercises.length} exercises today</p>}
-            </div>
+          <div>
+            <h2 className="rb-title">{dayLabel}</h2>
 
-            {exercises.length === 0 && (
-              <p style={{ padding: '0 20px', color: 'var(--text-secondary)', fontSize: 14 }}>
-                No exercises scheduled for this day yet.
-              </p>
+            {loading && (
+              <div className="rb-loading">
+                <i /> Loading today&apos;s session…
+              </div>
             )}
 
-            {exercises.length > 0 && (
+            {!loading && exercises.length === 0 && <p className="rb-empty">No exercises scheduled for this day yet.</p>}
+
+            {!loading && exercises.length > 0 && (
               <>
-                <div className="ex-carousel" id="carousel">
-                  {exercises.map((ex, i) => (
-                    <div className="ex-card ex-card-enter" style={{ animationDelay: `${i * 0.08}s` }} key={ex.family_id}>
-                      <div className="ex-card-media">
-                        <div className="ex-play">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="#F8F0EE">
-                            <path d="M8 5v14l11-7z" />
+                <div className="rb-meter">
+                  {dayName} · {done === total ? <b>SESSION COMPLETE</b> : (
+                    <>
+                      <b>{done}</b> OF <b>{total}</b> EXERCISES
+                    </>
+                  )}
+                </div>
+                <div className="rb-bar">
+                  <i style={{ width: `${(done / total) * 100}%` }} />
+                </div>
+
+                <div className="rb-timeline">
+                  <div className="rb-track" />
+                  <div className="rb-fill" style={{ height: fillH }} />
+                  {exercises.map((ex, i) => {
+                    const isDone = completedToday.has(ex.family_id);
+                    const kind = silhouetteFor(ex.family_name);
+                    return (
+                      <div
+                        className={`rb-ex${isDone ? ' done' : ''}`}
+                        style={{ animationDelay: `${0.3 + i * 0.12}s` }}
+                        key={ex.family_id}
+                        ref={(el) => {
+                          exRefs.current[i] = el;
+                        }}
+                      >
+                        <button
+                          className="rb-node"
+                          aria-label={isDone ? 'Completed' : 'Mark complete'}
+                          onClick={() => !isDone && markComplete(ex)}
+                        >
+                          <svg className="ring" viewBox="0 0 42 42">
+                            <circle cx="21" cy="21" r="20" />
                           </svg>
-                        </div>
-                      </div>
-                      <div className="ex-card-body">
-                        <h4>{ex.family_name}</h4>
-                        <p>
-                          Level {ex.current_level} of {ex.max_level}
-                          {ex.sets && ` · ${ex.sets} sets`}
-                          {ex.reps && ` × ${ex.reps} reps`}
-                          {ex.hold_seconds && ` (hold ${ex.hold_seconds}s)`}
-                        </p>
-                        <div className="ex-card-actions">
-                          <div
-                            className="btn-xs primary"
-                            style={completedToday.has(ex.family_id) ? { opacity: 0.5 } : undefined}
-                            onClick={() => !completedToday.has(ex.family_id) && markComplete(ex)}
-                          >
-                            {completedToday.has(ex.family_id) ? '✓ Done' : 'Mark complete'}
+                          <span className="no">{String(i + 1).padStart(2, '0')}</span>
+                          <svg className="chk" width="16" height="16" viewBox="0 0 16 16">
+                            <path d="M3 8.5 L6.5 12 L13 4.5" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </button>
+                        <div className="rb-card">
+                          <div className="k">Exercise {String(i + 1).padStart(2, '0')}</div>
+                          <div className="n">{ex.family_name}</div>
+                          <div className="m">
+                            Level {ex.current_level} of {ex.max_level}
+                            {ex.sets && ` · ${ex.sets} sets`}
+                            {ex.reps && ` × ${ex.reps} reps`}
+                            {ex.hold_seconds && ` (hold ${ex.hold_seconds}s)`}
                           </div>
                           {ex.current_level < ex.max_level && (
-                            <div className="btn-xs" onClick={() => levelUp(ex)}>
+                            <button className="lvl" onClick={() => levelUp(ex)}>
                               Next level →
-                            </div>
+                            </button>
                           )}
+                          <div className={`rb-sil ${kind}`} aria-hidden="true">
+                            <svg viewBox="0 0 68 84" dangerouslySetInnerHTML={{ __html: SIL[kind] }} />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-                <div className="dots">
-                  {exercises.map((_, i) => (
-                    <div className={`dot${i === 0 ? ' active' : ''}`} key={i} />
-                  ))}
+                    );
+                  })}
                 </div>
               </>
             )}

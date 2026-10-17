@@ -1,0 +1,164 @@
+/* Dark "rehab clinic" look for the Days page and Exercise page (/program/week, /program/day/...).
+   Everything is scoped under .rb-root.on so the cover page and the rest of the site are untouched. */
+
+body:has(.rb-root.on){ background:#121211; }
+
+.rb-root.on{
+  --rb-ink:#ECE9E1; --rb-ink2:#A9A69D; --rb-ink3:#6E6C65;
+  --rb-line:rgba(236,233,225,.10); --rb-glass:rgba(30,30,28,.55);
+  --rb-accent:#E0503F; --rb-ease:cubic-bezier(.22,.9,.24,1);
+  color:var(--rb-ink);
+}
+.rb-root.on::before{
+  content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:radial-gradient(1200px 800px at 70% 40%, #1c1c1a 0%, #121211 60%);
+}
+.rb-canvas{ position:fixed; inset:0; width:100%; height:100%; display:block; z-index:1; pointer-events:none; }
+.rb-content{ position:relative; z-index:3; min-height:calc(100vh - 77px); }
+
+.rb-layer{ display:flex; align-items:flex-start; padding:44px clamp(20px,6vw,96px) 60px;
+  transition:opacity .6s var(--rb-ease); }
+.rb-layer.off{ opacity:0; pointer-events:none; }
+.rb-col{ width:min(440px,100%); }
+.rb-col.wide{ width:min(520px,100%); }
+
+.rb-eyebrow{ font:600 11px var(--sans); letter-spacing:1.8px; text-transform:uppercase; color:var(--rb-accent); }
+.rb-h1{ font-family:var(--serif); font-weight:400; font-size:clamp(32px,4.4vw,46px); margin:10px 0 6px; letter-spacing:-.5px; color:var(--rb-ink); }
+.rb-lede{ color:var(--rb-ink2); font-size:14px; line-height:1.6; margin-bottom:26px; max-width:340px; }
+
+/* ---------- day cards ---------- */
+.rb-days{ perspective:900px; display:flex; flex-direction:column; gap:10px; padding:4px 2px 8px; }
+.rb-day{ position:relative; display:flex; align-items:center; gap:14px; padding:15px 16px; border-radius:16px;
+  background:var(--rb-glass); border:1px solid var(--rb-line); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  cursor:pointer; opacity:0; transform:translateY(14px); animation:rbRise .7s var(--rb-ease) forwards;
+  transition:transform .45s var(--rb-ease), box-shadow .45s var(--rb-ease), background .3s, opacity .5s; }
+.rb-day:nth-child(1){ animation-delay:.10s } .rb-day:nth-child(2){ animation-delay:.16s }
+.rb-day:nth-child(3){ animation-delay:.22s } .rb-day:nth-child(4){ animation-delay:.28s }
+.rb-day:nth-child(5){ animation-delay:.34s } .rb-day:nth-child(6){ animation-delay:.40s }
+.rb-day:nth-child(7){ animation-delay:.46s }
+@keyframes rbRise{ to{ opacity:1; transform:none; } }
+.rb-day:hover{ transform:translateY(-3px) translateZ(26px) scale(1.015); background:rgba(40,40,37,.7);
+  box-shadow:0 18px 40px rgba(0,0,0,.45), 0 0 0 1px rgba(224,80,63,.18); }
+@property --rb-ang{ syntax:'<angle>'; inherits:false; initial-value:0deg; }
+.rb-day::before{ content:""; position:absolute; inset:0; border-radius:inherit; padding:1px; pointer-events:none;
+  background:conic-gradient(from var(--rb-ang), transparent 0 68%, rgba(224,80,63,.95) 84%, transparent 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  opacity:0; transition:opacity .35s; }
+.rb-day:hover::before{ opacity:1; animation:rbOrbit 2.6s linear infinite; }
+@keyframes rbOrbit{ to{ --rb-ang:360deg; } }
+.rb-day .num{ width:38px; height:38px; border-radius:11px; border:1px solid var(--rb-line); display:grid; place-items:center;
+  font:600 12px var(--sans); color:var(--rb-ink2); letter-spacing:.5px; }
+.rb-day .t{ flex:1; }
+.rb-day .n{ font:600 15px var(--sans); color:var(--rb-ink); }
+.rb-day .l{ font:500 12px var(--sans); color:var(--rb-ink2); margin-top:2px; }
+.rb-day .arr{ color:var(--rb-ink3); transition:transform .4s var(--rb-ease), color .3s; }
+.rb-day:hover .arr{ transform:translateX(4px); color:var(--rb-accent); }
+.rb-day.rest{ opacity:.38 !important; cursor:default; pointer-events:none; }
+.rb-day.picked{ transform:scale(1.045) translateZ(40px) !important; box-shadow:0 0 0 1px rgba(224,80,63,.5), 0 20px 50px rgba(0,0,0,.5); }
+.rb-day.picked::before{ opacity:1; }
+.rb-days.go .rb-day:not(.picked){ opacity:0 !important; transform:translateY(8px) !important; transition:opacity .35s, transform .35s; }
+
+/* ---------- close-up caption ---------- */
+.rb-caption{ position:fixed; left:0; right:0; bottom:11vh; z-index:4; text-align:center; pointer-events:none;
+  opacity:0; transform:translateY(10px); transition:opacity .7s var(--rb-ease), transform .7s var(--rb-ease); }
+.rb-caption.on{ opacity:1; transform:none; }
+.rb-caption .k{ font:600 11px var(--sans); letter-spacing:2px; text-transform:uppercase; color:#fff; opacity:.85; text-shadow:0 1px 12px rgba(0,0,0,.8); }
+.rb-caption .v{ font-family:var(--serif); font-size:clamp(22px,3vw,32px); margin-top:8px; color:#fff; text-shadow:0 2px 18px rgba(0,0,0,.85); }
+
+/* ---------- exercise page ---------- */
+.rb-back{ display:inline-block; background:none; border:1px solid var(--rb-line); color:var(--rb-ink2); border-radius:50px;
+  padding:7px 14px; font:600 12px var(--sans); cursor:pointer; margin-bottom:18px; transition:border-color .2s, color .2s; }
+.rb-back:hover{ border-color:var(--rb-accent); color:var(--rb-ink); }
+.rb-tabs{ display:flex; gap:6px; margin-bottom:22px; overflow-x:auto; }
+.rb-tab{ padding:8px 15px; border-radius:50px; font:600 12px var(--sans); color:var(--rb-ink2); cursor:pointer;
+  border:1px solid var(--rb-line); background:transparent; transition:all .25s var(--rb-ease); white-space:nowrap; }
+.rb-tab:hover{ color:var(--rb-ink); border-color:rgba(236,233,225,.25); }
+.rb-tab.active{ background:var(--rb-accent); border-color:var(--rb-accent); color:#fff; }
+.rb-meter{ font:600 11px var(--sans); letter-spacing:1.8px; text-transform:uppercase; color:var(--rb-ink2); }
+.rb-meter b{ color:var(--rb-ink); font-weight:600; }
+.rb-bar{ height:2px; background:var(--rb-line); border-radius:2px; margin:12px 0 22px; overflow:hidden; }
+.rb-bar i{ display:block; height:100%; width:0; background:var(--rb-accent); transition:width .8s var(--rb-ease); }
+.rb-title{ font-family:var(--serif); font-weight:400; font-size:clamp(28px,3.6vw,38px); margin:0 0 6px; color:var(--rb-ink); }
+
+.rb-timeline{ position:relative; }
+.rb-track{ position:absolute; left:19px; top:20px; bottom:20px; width:2px; background:var(--rb-line); border-radius:2px;
+  transform-origin:top; transform:scaleY(0); animation:rbDraw 1.1s .25s var(--rb-ease) forwards; }
+@keyframes rbDraw{ to{ transform:scaleY(1); } }
+.rb-fill{ position:absolute; left:19px; top:20px; width:2px; height:0; background:linear-gradient(var(--rb-accent),#ff8a77);
+  border-radius:2px; box-shadow:0 0 12px rgba(224,80,63,.6); transition:height .9s var(--rb-ease); }
+.rb-ex{ position:relative; display:flex; gap:16px; align-items:flex-start; margin-bottom:12px; opacity:0; transform:translateY(18px);
+  animation:rbRise .75s var(--rb-ease) forwards; }
+.rb-node{ position:relative; flex:0 0 40px; height:40px; border-radius:50%; background:#1a1a18; border:1px solid var(--rb-line);
+  color:var(--rb-ink2); font:600 11px var(--sans); display:grid; place-items:center; cursor:pointer; z-index:2; padding:0;
+  transition:border-color .3s, color .3s, background .3s, transform .2s; }
+.rb-node:hover{ border-color:var(--rb-accent); color:var(--rb-ink); }
+.rb-node:active{ transform:scale(.92); }
+.rb-node svg.ring{ position:absolute; inset:-1px; width:42px; height:42px; transform:rotate(-90deg); }
+.rb-node circle{ fill:none; stroke:var(--rb-accent); stroke-width:2; stroke-dasharray:132; stroke-dashoffset:132; transition:stroke-dashoffset .7s var(--rb-ease); }
+.rb-node .chk{ position:absolute; opacity:0; transform:scale(.4); transition:opacity .3s .25s, transform .5s .25s var(--rb-ease); }
+.rb-ex.done .rb-node{ background:var(--rb-accent); border-color:var(--rb-accent); color:#fff; }
+.rb-ex.done .rb-node circle{ stroke-dashoffset:0; }
+.rb-ex.done .rb-node .no{ opacity:0; }
+.rb-ex.done .rb-node .chk{ opacity:1; transform:none; }
+.rb-ex.done .rb-card{ opacity:.55; }
+
+.rb-card{ position:relative; flex:1; min-width:0; border-radius:16px; padding:16px 18px; background:var(--rb-glass);
+  border:1px solid var(--rb-line); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  transition:transform .45s var(--rb-ease), box-shadow .45s var(--rb-ease), opacity .4s; overflow:hidden; }
+.rb-ex:hover .rb-card{ transform:translateY(-3px); box-shadow:0 18px 40px rgba(0,0,0,.45), 0 0 0 1px rgba(224,80,63,.18); }
+.rb-card .k{ font:600 10px var(--sans); letter-spacing:1.8px; text-transform:uppercase; color:var(--rb-accent); }
+.rb-card .n{ font:600 16px var(--sans); margin:5px 0 3px; color:var(--rb-ink); padding-right:80px; }
+.rb-card .m{ font:500 12px var(--sans); color:var(--rb-ink2); padding-right:80px; }
+.rb-card .lvl{ display:inline-block; margin-top:10px; font:600 11px var(--sans); color:var(--rb-ink2); border:1px solid var(--rb-line);
+  border-radius:50px; padding:5px 12px; cursor:pointer; background:transparent; transition:border-color .2s, color .2s; }
+.rb-card .lvl:hover{ border-color:var(--rb-accent); color:var(--rb-ink); }
+.rb-sil{ position:absolute; right:10px; top:50%; width:84px; height:84px; margin-top:-42px; opacity:0; transform:translateX(12px) scale(.9);
+  transition:opacity .45s var(--rb-ease), transform .55s var(--rb-ease); pointer-events:none; }
+.rb-ex:hover .rb-sil{ opacity:1; transform:none; }
+.rb-sil svg{ width:100%; height:100%; overflow:visible; }
+.rb-sil .b{ stroke:var(--rb-ink); stroke-width:3.2; stroke-linecap:round; fill:none; opacity:.85; }
+.rb-sil .h{ fill:var(--rb-ink); opacity:.85; }
+.rb-sil .acc{ stroke:var(--rb-accent); }
+.rb-sil.ext .tor{ transform-origin:34px 52px; animation:rbExt 2.4s ease-in-out infinite; }
+@keyframes rbExt{ 0%,100%{ transform:rotate(-26deg); } 50%{ transform:rotate(4deg); } }
+.rb-sil.lift .lg{ transform-origin:34px 52px; animation:rbLift 2.4s ease-in-out infinite; }
+@keyframes rbLift{ 0%,100%{ transform:rotate(0); } 50%{ transform:rotate(-34deg); } }
+.rb-sil.walk .lgA{ transform-origin:34px 52px; animation:rbWalk 1.4s ease-in-out infinite; }
+.rb-sil.walk .lgB{ transform-origin:34px 52px; animation:rbWalk 1.4s ease-in-out infinite reverse; }
+@keyframes rbWalk{ 0%,100%{ transform:rotate(-20deg); } 50%{ transform:rotate(20deg); } }
+.rb-sil.twist .tor{ transform-origin:34px 52px; animation:rbTwist 2.6s ease-in-out infinite; }
+@keyframes rbTwist{ 0%,100%{ transform:rotate(-14deg); } 50%{ transform:rotate(14deg); } }
+
+.rb-empty{ color:var(--rb-ink2); font-size:14px; padding:6px 0; }
+.rb-loading{ display:flex; align-items:center; gap:10px; color:var(--rb-ink2); font-size:14px; padding:30px 0; }
+.rb-loading i{ width:16px; height:16px; border:2px solid var(--rb-line); border-top-color:var(--rb-accent); border-radius:50%; display:inline-block; animation:rbSpin .7s linear infinite; }
+@keyframes rbSpin{ to{ transform:rotate(360deg); } }
+
+/* Progress + Pain log tabs reuse the old class names, re-coloured for the dark look */
+.rb-root.on .tab-panel{ animation:rbRise .5s var(--rb-ease) both; }
+.rb-root.on .dash-title-row{ padding:0 0 16px; }
+.rb-root.on .dash-title-row h2{ font-family:var(--serif); font-weight:400; font-size:clamp(26px,3.4vw,34px); color:var(--rb-ink); }
+.rb-root.on .dash-title-row p{ color:var(--rb-accent); }
+.rb-root.on .stat-grid{ padding:0; }
+.rb-root.on .stat-box{ background:var(--rb-glass); border:1px solid var(--rb-line); border-radius:16px;
+  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); }
+.rb-root.on .stat-box .num{ color:var(--rb-ink); }
+.rb-root.on .stat-box .lbl{ color:var(--rb-ink2); }
+.rb-root.on .pain-form{ padding:0; }
+.rb-root.on .pain-form input{ background:var(--rb-glass); border:1px solid var(--rb-line); color:var(--rb-ink); border-radius:12px; }
+.rb-root.on .pain-form input::placeholder{ color:var(--rb-ink3); }
+.rb-root.on .profile-save{ background:var(--rb-accent); color:#fff; }
+.rb-root.on .pain-log-list{ padding:0; }
+.rb-root.on .pain-log-item{ background:var(--rb-glass); border:1px solid var(--rb-line); border-radius:12px; }
+.rb-root.on .pain-log-item .date, .rb-root.on .pain-empty{ color:var(--rb-ink2); }
+
+@media (max-width:860px){
+  .rb-layer{ padding-top:28px; }
+  .rb-sil{ display:none; }
+  .rb-card .n, .rb-card .m{ padding-right:0; }
+}
+@media (prefers-reduced-motion:reduce){
+  .rb-day, .rb-ex{ animation-duration:.01s !important; }
+  .rb-day:hover::before{ animation:none; }
+}

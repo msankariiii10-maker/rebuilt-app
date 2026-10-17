@@ -14,6 +14,7 @@ export type SpineScene = {
   align: (v: number, ms: number) => Promise<void>;
   snapAlign: (v: number) => void;
   sweep: (ms: number) => Promise<void>;
+  enableScroll: () => void;
   destroy: () => void;
 };
 
@@ -184,6 +185,15 @@ export function createSpineScene(THREE: any, canvas: HTMLCanvasElement, reduced:
   }
 
   let hoverTarget = 0;
+  // scroll mode (homepage): the page scroll position drives the camera
+  let scrollMode = false;
+  let sp = 0;
+  let mx = 0;
+  const onMouse = (e: MouseEvent) => {
+    mx = e.clientX / window.innerWidth - 0.5;
+  };
+  const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+  const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
   let last = performance.now();
   let raf = 0;
   let alive = true;
@@ -198,10 +208,29 @@ export function createSpineScene(THREE: any, canvas: HTMLCanvasElement, reduced:
     cur.burst *= Math.exp(-dt * 1.6);
     const t = now / 1000;
 
+    let scrollE = 0;
+    if (scrollMode) {
+      const target = clamp(window.scrollY / (window.innerHeight * 0.95), 0, 1.6);
+      sp += (target - sp) * Math.min(1, dt * 4);
+      const h = clamp(sp, 0, 1);
+      scrollE = h * h * (3 - 2 * h);
+      const far = isMobile() ? 20 : 17.5;
+      cur.px = 0;
+      cur.py = lerp(1.4, -0.5, scrollE);
+      cur.pz = lerp(far, 5.2, scrollE);
+      cur.tx = 0;
+      cur.ty = cur.py;
+      cur.tz = 0;
+      cur.fx = lerp(isMobile() ? 0 : 3.0, 0, scrollE);
+      const fade = sp <= 1 ? 1 : clamp(1 - ((sp - 1) / 0.6) * 0.8, 0.18, 1);
+      cur.op = (isMobile() ? lerp(0.26, 1, scrollE) : 1) * fade;
+      cur.align = clamp(0.2 + scrollE * 0.8, 0, 1);
+      cur.base = 0.55 + scrollE * 0.5;
+    }
     camera.position.set(cur.px, cur.py, cur.pz);
     camera.lookAt(cur.tx, cur.ty, cur.tz);
     fig.position.x = cur.fx;
-    fig.rotation.y = reduced ? 0 : Math.sin(t * 0.22) * 0.14;
+    fig.rotation.y = reduced ? 0 : Math.sin(t * 0.22) * 0.14 + (scrollMode ? mx * 0.35 * (1 - scrollE) : 0);
     canvas.style.opacity = String(cur.op);
 
     const pulse = 0.5 + 0.5 * Math.sin(t * (1.15 + cur.hover * 1.1));
@@ -273,8 +302,13 @@ export function createSpineScene(THREE: any, canvas: HTMLCanvasElement, reduced:
         cur.sweep = -1;
       });
     },
+    enableScroll: () => {
+      scrollMode = true;
+      window.addEventListener('mousemove', onMouse);
+    },
     destroy: () => {
       alive = false;
+      window.removeEventListener('mousemove', onMouse);
       cancelAnimationFrame(raf);
       window.removeEventListener('resize', resize);
       disposables.forEach((d) => d.dispose && d.dispose());

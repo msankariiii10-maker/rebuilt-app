@@ -1,4 +1,4 @@
-/* Homepage — dark clinic look with the scroll-driven 3D spine. Scoped under .hm-root. */
+/* Homepage — dark clinic look with the scroll-driven photo bodies. Scoped under .hm-root. */
 
 body:has(.hm-root){ background:#121211; }
 
@@ -10,9 +10,41 @@ body:has(.hm-root){ background:#121211; }
 }
 .hm-root::before{ content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
   background:radial-gradient(1200px 800px at 72% 30%, #1d1d1b 0%, #121211 62%); }
-.hm-canvas{ position:fixed; inset:0; width:100%; height:100%; z-index:1; display:block; pointer-events:none; }
 .hm-main, .hm-footer{ position:relative; z-index:3; }
 .hm-wrap{ max-width:1180px; margin:0 auto; padding:0 32px; }
+
+
+  /* ---- hero bodies ---- */
+  .hm-root .hm-figs::before{content:"";position:absolute;inset:-8% -16% -4% -16%;background:radial-gradient(closest-side,rgba(7,7,7,.96) 52%,rgba(7,7,7,0) 100%);pointer-events:none}
+  .hm-root .hm-figs{position:fixed;z-index:1;right:max(3vw,calc((100vw - 1180px)/2 - 20px));bottom:10px;height:min(86vh,860px);display:flex;align-items:flex-end;gap:clamp(6px,1.4vw,22px);perspective:1400px;pointer-events:none;opacity:var(--fade,1);transform:scale(var(--zs,1));transform-origin:50% 41%;will-change:opacity,transform}
+  .hm-root .hm-fig{--rx:0deg;--ry:0deg;--mx:0;position:relative;height:100%;aspect-ratio:var(--ar);transform-style:preserve-3d;transform:rotateY(var(--ry)) rotateX(var(--rx));transition:filter .6s}
+  .hm-root .hm-fig .hm-glow{position:absolute;left:-30%;right:-30%;top:6%;bottom:-2%;border-radius:50%;background:radial-gradient(closest-side,rgba(236,233,225,.07),transparent 72%);opacity:.7;transition:opacity .7s;pointer-events:none}
+  .hm-root .hm-lum{position:absolute;left:50%;top:41%;width:70%;height:15%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(224,80,63,.5),transparent 72%);mix-blend-mode:screen;opacity:calc(var(--lg,0)*.9);pointer-events:none;animation:hmlpulse 2.8s ease-in-out infinite}
+  @keyframes hmlpulse{0%,100%{filter:brightness(.8)}50%{filter:brightness(1.25)}}
+  .hm-root .hm-fig.hov .hm-glow{opacity:1.6}
+  .hm-root .hm-fig.hov img{filter:brightness(1.1) contrast(1.05)}
+  .hm-root .hm-fig img{transition:filter .7s}
+  .hm-root .hm-shadow{position:absolute;left:-14%;right:-14%;bottom:-1.2%;height:5%;background:radial-gradient(closest-side,rgba(0,0,0,.85),transparent 75%);filter:blur(6px);transform:translateZ(-1px)}
+  .hm-root .hm-sway{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%);position:absolute;inset:0;transform-origin:50% 96%;animation:hmsway 9s ease-in-out infinite}
+  .hm-root .hm-sway img{position:absolute;inset:0;width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none}
+  .hm-root .hm-sway img.L{-webkit-mask-image:linear-gradient(to bottom,transparent 40%,#000 47%);mask-image:linear-gradient(to bottom,transparent 40%,#000 47%)}
+  .hm-root .hm-tw{position:absolute;inset:0;transform-origin:50% 44%;animation:hmpost 8s ease-in-out infinite}
+  .hm-root .hm-tb{position:absolute;inset:0;transform-origin:50% 44%}
+  .hm-root .hm-fig[data-g=F] .hm-tb{animation:hmbreath 4.2s ease-in-out infinite,hmmobF 17s cubic-bezier(.45,.05,.3,1) infinite}
+  .hm-root .hm-fig[data-g=M] .hm-tb{animation:hmbreath 4.6s ease-in-out infinite,hmmobM 19s cubic-bezier(.45,.05,.3,1) infinite}
+  .hm-root .hm-tb img{-webkit-mask-image:linear-gradient(to bottom,#000 39%,transparent 46%);mask-image:linear-gradient(to bottom,#000 39%,transparent 46%)}
+  .hm-root .hm-tb{translate:calc(var(--mx)*4px) 0}
+  @keyframes hmsway{0%,100%{transform:translateX(0) rotate(0)}30%{transform:translateX(-.5%) rotate(-.22deg)}65%{transform:translateX(.5%) rotate(.22deg)}}
+  @keyframes hmpost{0%,100%{transform:translateY(0) rotate(0)}35%{transform:translateY(-.25%) rotate(.3deg)}70%{transform:translateY(.1%) rotate(-.25deg)}}
+  @keyframes hmbreath{0%,100%{transform:scale(1,1)}50%{transform:scale(1.006,1.0085)}}
+  @keyframes hmmobF{0%,58%,100%{transform:scaleX(1) rotate(0)}  68%{transform:scaleX(.975) translateX(-.35%) rotate(-.6deg)} 76%{transform:scaleX(.975) translateX(-.35%) rotate(-.6deg)} 90%{transform:scaleX(1) rotate(0)}}
+  @keyframes hmmobM{0%,22%,100%{transform:scaleX(1) rotate(0)} 31%{transform:scaleX(1.032) translateY(-.35%) rotate(.5deg)} 38%{transform:scaleX(.975) translateY(-.2%) translateX(.5%) rotate(.9deg)} 46%{transform:scaleX(.975) translateY(-.2%) translateX(.5%) rotate(.9deg)} 60%{transform:scaleX(1) rotate(0)}}
+  @media(max-width:900px){
+    .hm-root .hm-figs{right:auto;left:50%;margin-left:calc(min(70vh,640px)*.37*-1);height:min(72vh,640px);--mob:.34}
+    .hm-root .hm-hero .txt{text-shadow:0 2px 18px rgba(0,0,0,.85)}
+  }
+  @media(prefers-reduced-motion:reduce){.hm-root .hm-lum{animation:none}.hm-root .hm-sway,.hm-root .hm-tw,.hm-root .hm-tb{animation:none!important}}
+
 
 /* hero */
 .hm-hero{ min-height:calc(100vh - 77px); display:flex; align-items:center; position:relative; }

@@ -177,6 +177,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
 .mkr.live:hover .lab{background:var(--red2)}
 @keyframes mping{70%{box-shadow:0 0 0 14px rgba(224,80,63,0),0 0 18px rgba(224,80,63,.9)}}
 #pbg{overflow:hidden}#pbg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 55%;opacity:.55;animation:drift 14s ease-in-out infinite alternate}#pbg .zb{position:absolute;opacity:.55;filter:blur(1.2px) saturate(1.05);animation:drift 14s ease-in-out infinite alternate;transform-origin:var(--ox) var(--oy)}
+#pzw .pzg{position:absolute;width:30%;height:14%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(ellipse,rgba(224,80,63,.55),transparent 70%);mix-blend-mode:screen;animation:gpulse 2.6s ease-in-out infinite;pointer-events:none}#pzw img{object-fit:fill!important;opacity:.6!important;filter:saturate(1.05)}
 #pbg .zb img{width:100%;height:100%;display:block}#pbg .zg{position:absolute;border-radius:50%;background:radial-gradient(ellipse,rgba(224,80,63,.8),transparent 68%);mix-blend-mode:screen;animation:gpulse 2.6s ease-in-out infinite}
 #dbg img{height:min(90vh,880px);mask-image:radial-gradient(ellipse 72% 62% at 50% 50%,#000 72%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse 72% 62% at 50% 50%,#000 72%,transparent 100%)}
 @media(max-width:640px){#s-body .sub{font-size:13px}#s-body .bt{margin-bottom:2px}.mkr .lab{font-size:9.5px;padding:6px 9px;letter-spacing:1.1px}}
@@ -237,7 +238,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
   <div class="fig" id="fig"><div class="fb" id="fb"><div class="floor"></div><div class="pz" id="pz"><div class="breath" id="breath"><img id="pimg" alt=""><div class="lglow" id="lglow"></div></div></div></div><div id="mk"></div></div>
   <div class="toast" id="toast">More regions are coming soon</div>
 </section>
-<div id="pbg"><img id="pbgi" alt=""></div><div id="dbg"><img id="dbgi" alt=""></div>
+<div id="pbg"><div id="pzw"><img id="pbgi" alt=""><div class="pzg"></div></div></div><div id="dbg"><img id="dbgi" alt=""></div>
 
 <section class="screen c" id="s-program">
   <div class="eyebrow">Low back — Rebuilt program</div><h2>Your rehabilitation <em>plan.</em></h2><div class="days" id="days"></div><div style="height:96px;flex:none"></div>
@@ -468,7 +469,15 @@ function setupBody(){
 }
 addEventListener('resize',()=>{if(cur==='body'&&!zooming)setupBody()});
 let tTo=null;function soon(){const t=$('#toast');t.classList.add('on');clearTimeout(tTo);tTo=setTimeout(()=>t.classList.remove('on'),1800)}
-function setupProgram(){$('#pbgi').src=IMG[gnd()].zoom}
+function setupProgram(){
+  const g=gnd(),im=$('#pbgi'),w=$('#pzw'),L=g==='Female'?[.5,.405]:[.5,.40];
+  const place=()=>{const r=(im.naturalWidth||1)/(im.naturalHeight||1),vw=innerWidth,vh=innerHeight;
+    const H=Math.max(vh*3.1,vw/r*1.25),W=H*r;
+    w.style.cssText=`position:absolute;width:${W}px;height:${H}px;left:${vw*.5-L[0]*W}px;top:${vh*.42-L[1]*H}px`;
+    const gl=w.querySelector('.pzg');gl.style.cssText=`left:${L[0]*100}%;top:${L[1]*100}%`};
+  im.onload=place; if(im.src!==IMG[g].img)im.src=IMG[g].img; else place();
+  window.addEventListener('resize',()=>{if($('#s-program').classList.contains('on'))place()});
+}
 function setupDash(){$('#dbgi').src=IMG[gnd()].img}
 function pick(){if(zooming||cur!=='body')return;zooming=true;$('#lglow').classList.add('on');const pz=$('#pz');$('#mk').style.opacity=0;pz.style.transform='scale(3.4)';setTimeout(()=>{pz.style.opacity=0},1100);$('.bt').style.opacity=0;
   setTimeout(()=>{zooming=false;$('.bt').style.opacity='';$('#mk').style.opacity='';renderDays();go('program')},2100)}

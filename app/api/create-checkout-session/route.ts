@@ -42,8 +42,9 @@ export async function POST(req: NextRequest) {
           quantity: 1,
         },
       ],
-      // After paying, go straight into the program (no success page).
-      success_url: `${origin}/program`,
+      // After paying, Stripe sends the customer to "create your password"
+      // ({CHECKOUT_SESSION_ID} is filled in by Stripe).
+      success_url: `${origin}/create-password?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/checkout/cancel`,
     });
 

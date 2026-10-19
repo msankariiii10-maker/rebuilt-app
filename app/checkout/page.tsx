@@ -127,7 +127,14 @@ export default function CheckoutPage() {
             lineHeight: 1.5,
           }}
         >
-          Secure payment powered by Stripe.
+          Secure payment powered by Stripe. After paying, you’ll create your password.
+        </p>
+
+        <p style={{ fontSize: 13, color: '#5C5B56', textAlign: 'center', marginTop: 14 }}>
+          Already a member?{' '}
+          <a href="/login" style={{ color: '#C0392B', fontWeight: 600 }}>
+            Sign in
+          </a>
         </p>
       </div>
     </main>

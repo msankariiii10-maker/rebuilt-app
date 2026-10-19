@@ -46,6 +46,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
 .priv{margin-top:18px;max-width:380px;text-align:center;font-size:12.5px;color:var(--ink3);line-height:1.55;display:flex;gap:8px;align-items:flex-start;justify-content:center}
 .build{margin-top:16px;min-height:44px;text-align:center}.build .l{font:500 15px var(--sans);color:var(--ink2)}
 .bar{width:220px;height:2px;background:var(--line);border-radius:2px;margin:12px auto 0;overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--red);transition:width 2.4s var(--ease)}
+:root.boot body{visibility:hidden}
 .skip{margin-top:8px;font-size:13px;color:var(--ink3);text-decoration:underline;text-underline-offset:4px}
 /* body */
 #s-body{justify-content:flex-start;padding-top:78px}#s-body h1{font-size:clamp(24px,3.4vw,38px);letter-spacing:.5px;font-family:var(--sans);font-weight:700;text-transform:uppercase}
@@ -362,7 +363,8 @@ $('#reset').onclick=()=>location.reload();
 $$('.choice').forEach(c=>c.onclick=()=>{$$('.choice').forEach(x=>x.classList.remove('sel'));c.classList.add('sel');S.gender=c.dataset.g;$('#p1c').disabled=false});
 $('#p1c').onclick=()=>{$('#p1').classList.remove('on');$('#p2').classList.add('on')};
 const setAge=v=>{S.age=Math.max(14,Math.min(90,v));$('#an').textContent=S.age;$('#ar').value=S.age};
-$('#am').onclick=()=>setAge(S.age-1);$('#ap').onclick=()=>setAge(S.age+1);$('#ar').oninput=e=>setAge(+e.target.value);$('#p2c').onclick=()=>go('photo');
+$('#am').onclick=()=>setAge(S.age-1);$('#ap').onclick=()=>setAge(S.age+1);$('#ar').oninput=e=>setAge(+e.target.value);const saveProfile=()=>{try{fetch('/api/member-profile',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify({gender:S.gender,age:S.age})}).catch(()=>{})}catch(e){}};
+$('#p2c').onclick=()=>{saveProfile();go('photo')};
 function building(src){
   const d=$('#drop');d.classList.add('has','busy');$('#prev').src=src;$('#chipimg').src=src;S.photo=src;
   $('#build').innerHTML='<div class="l">Building your profile…</div><div class="bar"><i id="bi"></i></div>';
@@ -631,7 +633,18 @@ function loop(ts){requestAnimationFrame(loop);const dt=Math.min(.05,(ts-lastT)/1
 }
 try{const sv=JSON.parse(localStorage.getItem('rb_pain_demo')||'null');if(Array.isArray(sv)&&sv.length>5&&false)S.pain=sv}catch(e){}
 renderDays();
+/* Returning member: gender + age were saved the first time, so skip the questions and go straight to the body page ("Where are we rebuilding?"). */
+(async()=>{
+  const root=document.documentElement; root.classList.add('boot');
+  const finish=()=>root.classList.remove('boot'); const t=setTimeout(finish,2500);
+  try{
+    const r=await fetch('/api/member-profile',{credentials:'same-origin',cache:'no-store'});
+    if(r.ok){const d=await r.json(); if(d&&d.gender&&d.age){S.gender=d.gender;setAge(d.age);renderDays();go('body')}}
+  }catch(e){console.error('returning-member shortcut failed',e)}
+  clearTimeout(t); finish();
 })();
+})();
+
 </script>
 </body>
 </html>

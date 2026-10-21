@@ -6,7 +6,7 @@ import { ensureAccount, paidSessionInfo, syncSubscription } from '@/lib/accounts
 
 // Stripe calls this URL by itself whenever something happens to a payment.
 // Set it up once in Stripe: Developers > Webhooks > Add endpoint
-//   URL:    https://YOUR-SITE/api/stripe-webhook
+//   URL:    https://mskrebuilt.com/api/stripe-webhook
 //   Events: checkout.session.completed, customer.subscription.updated, customer.subscription.deleted
 // Then copy the "Signing secret" into the STRIPE_WEBHOOK_SECRET env var.
 

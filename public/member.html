@@ -71,7 +71,12 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
 .exwrap{width:min(680px,100%);margin-top:26px;display:flex;flex-direction:column;gap:14px;padding-bottom:30px}
 .ex{display:grid;grid-template-columns:150px 1fr;gap:18px;padding:16px;align-items:center}
 .ex h3{font:400 22px var(--serif);letter-spacing:-.3px}.ex .m{display:flex;gap:14px;color:var(--ink2);font-size:13px;margin:6px 0 8px;flex-wrap:wrap}.ex .m b{color:var(--ink);font-weight:600}
-.ex p{color:var(--ink3);font-size:13px;line-height:1.5;margin-bottom:12px}.ex .go{font:700 11.5px var(--sans);letter-spacing:1.2px;text-transform:uppercase;color:var(--red)}.ex.done{opacity:.55}.ex.done .go{color:#5BBF8A}
+.ex p{color:var(--ink3);font-size:13px;line-height:1.5;margin-bottom:12px}.ex .go{font:700 11.5px var(--sans);letter-spacing:1.2px;text-transform:uppercase;color:var(--red)}.ex.done{opacity:.55}
+/* exercise cards rise in as they scroll into view */
+.ex[data-rv]{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.22,.61,.36,1),transform .7s cubic-bezier(.22,.61,.36,1)}
+.ex[data-rv="in"]{opacity:1;transform:none}
+.ex.done[data-rv="in"]{opacity:.55}
+@media(prefers-reduced-motion:reduce){.ex[data-rv]{opacity:1;transform:none;transition:none}.ex.done[data-rv]{opacity:.55}}.ex.done .go{color:#5BBF8A}
 .prog{font:600 11px var(--sans);letter-spacing:1.8px;color:var(--ink3);text-transform:uppercase;margin-top:16px}
 /* video player (demo) */
 .vp{position:relative;border-radius:14px;overflow:hidden;background:radial-gradient(circle at 50% 40%,rgba(224,80,63,.14),transparent 70%),#0f0f0e;border:1px solid var(--line);aspect-ratio:16/10;display:grid;place-items:center;cursor:pointer}
@@ -390,7 +395,18 @@ function openDay(i){
   $('#dProg').textContent=Object.keys(dn).length+' of '+d.ex.length+' complete · '+d.min+' min';
   $('#exlist').innerHTML=d.ex.map((e,j)=>`<div class="ex glass ${dn[j]?'done':''}">${vbox(e)}<div><h3>${e[0]}</h3><div class="m"><span><b>${e[1]}</b></span><span>Rest ${e[2]?e[2]+'s':'—'}</span></div><p>${e[3]}</p><button class="go" data-j="${j}">${dn[j]?'Completed ✓':'Start exercise →'}</button></div></div>`).join('');
   $$('.go').forEach(b=>b.onclick=()=>{S.ex=+b.dataset.j;renderFocus();go('focus')});
+  revealEx();
   go('day');
+}
+/* cards on screen when the day opens come in one after another; the rest rise in as you scroll to them */
+let exIO=null;
+function revealEx(){
+  if(exIO)exIO.disconnect();
+  if(!('IntersectionObserver' in window))return;
+  exIO=new IntersectionObserver(es=>{let k=0;es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target;
+    el.style.transitionDelay=(k++*.1)+'s';el.addEventListener('transitionend',()=>{el.style.transitionDelay=''},{once:true});
+    el.dataset.rv='in';exIO.unobserve(el)})},{threshold:.15});
+  $$('#exlist .ex').forEach(el=>{el.dataset.rv='';exIO.observe(el)});
 }
 let tInt=null,tLeft=0,tRun=false;const fmt=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
 function renderFocus(){

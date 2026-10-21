@@ -70,6 +70,17 @@ body:has(.hm-root){ background:#121211; }
 .hm-scroll span{ display:block; width:1px; height:34px; background:linear-gradient(var(--hm-accent),transparent); animation:hmDrip 2.2s ease-in-out infinite; transform-origin:top; }
 @keyframes hmDrip{ 0%{ transform:scaleY(0); } 50%{ transform:scaleY(1); } 100%{ transform:scaleY(1); opacity:0; } }
 
+/* hero load-in: the copy rises in line by line, then the scroll cue */
+@keyframes hmRiseIn{ from{ opacity:0; transform:translateY(24px); } to{ opacity:1; transform:none; } }
+.hm-hero .txt > *{ animation:hmRiseIn .9s cubic-bezier(.22,.61,.36,1) backwards; }
+.hm-hero .txt > :nth-child(1){ animation-delay:.1s; }
+.hm-hero .txt > :nth-child(2){ animation-delay:.22s; }
+.hm-hero .txt > :nth-child(3){ animation-delay:.34s; }
+.hm-hero .txt > :nth-child(4){ animation-delay:.46s; }
+.hm-hero .txt > :nth-child(5){ animation-delay:.58s; }
+.hm-hero .txt > :nth-child(6){ animation-delay:.7s; }
+.hm-scroll{ animation:hmRiseIn .9s cubic-bezier(.22,.61,.36,1) 1s backwards; }
+
 /* sections */
 .hm-section{ padding:120px 0; }
 .hm-reveal{ opacity:0; transform:translateY(26px); transition:opacity .9s var(--hm-ease), transform .9s var(--hm-ease); }
@@ -113,6 +124,11 @@ body:has(.hm-root){ background:#121211; }
 .hm-quote p{ color:var(--hm-ink2); font-size:14.5px; line-height:1.7; margin:10px 0 20px; }
 .hm-who{ display:flex; align-items:center; gap:12px; font:600 14px var(--sans); color:var(--hm-ink); }
 .hm-av{ width:34px; height:34px; border-radius:50%; background:rgba(224,80,63,.14); border:1px solid rgba(224,80,63,.3); display:grid; place-items:center; font:600 12px var(--sans); color:var(--hm-accent); }
+/* quotes stagger in one after another when the grid scrolls into view */
+.hm-grid .hm-quote.in{ animation:hmRiseIn .9s cubic-bezier(.22,.61,.36,1) backwards; }
+.hm-grid .hm-quote.in:nth-child(2){ animation-delay:.1s; }
+.hm-grid .hm-quote.in:nth-child(3){ animation-delay:.2s; }
+.hm-grid .hm-quote.in:nth-child(4){ animation-delay:.3s; }
 
 /* footer */
 .hm-footer{ border-top:1px solid var(--hm-line); padding:40px 0 50px; background:rgba(10,10,10,.6); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); }
@@ -130,5 +146,5 @@ body:has(.hm-root){ background:#121211; }
 }
 @media (prefers-reduced-motion:reduce){
   .hm-reveal{ transition:none; opacity:1; transform:none; }
-  .hm-play, .hm-scroll span{ animation:none; }
+  .hm-play, .hm-scroll span, .hm-scroll, .hm-hero .txt > *, .hm-grid .hm-quote.in{ animation:none; }
 }

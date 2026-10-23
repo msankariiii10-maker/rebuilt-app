@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabaseServerClient';
+import { isOwner } from '@/lib/owner';
 
 // Remembers the answers a member gives the FIRST time they enter the program
 // (gender + age), so they are never asked again when they sign back in.
@@ -12,8 +13,9 @@ export async function GET() {
   if (!data.user) return NextResponse.json({ error: 'Not signed in' }, { status: 401 });
 
   const m = (data.user.user_metadata ?? {}) as { gender?: string; age?: number };
-  if (m.gender && m.age) return NextResponse.json({ gender: m.gender, age: m.age });
-  return NextResponse.json({ gender: null, age: null });
+  const owner = isOwner(data.user.email); // lets the member area show the owner a link to /admin
+  if (m.gender && m.age) return NextResponse.json({ gender: m.gender, age: m.age, owner });
+  return NextResponse.json({ gender: null, age: null, owner });
 }
 
 export async function POST(req: NextRequest) {

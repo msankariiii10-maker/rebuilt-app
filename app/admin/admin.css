@@ -1,0 +1,16 @@
+.adm{min-height:100vh;background:#0B0B0A;color:#F2F2EE;font-family:system-ui,-apple-system,Segoe UI,sans-serif;padding:32px 20px 80px}
+.adm-in{max-width:880px;margin:0 auto}
+.adm h1{font-family:Georgia,serif;font-weight:400;font-size:34px;margin:0 0 6px}
+.adm .sub{color:#9a9a94;font-size:14px;margin-bottom:26px}
+.adm-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:34px}
+.adm-stat{padding:16px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1)}
+.adm-stat b{display:block;font-size:26px;letter-spacing:-.5px}.adm-stat span{font-size:12px;color:#9a9a94}
+.adm h2{font-size:12px;letter-spacing:1.6px;text-transform:uppercase;color:#E0503F;margin:30px 0 12px}
+.adm-note{padding:16px 18px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);margin-bottom:10px}
+.adm-note.share{border-color:rgba(111,207,151,.5)}
+.adm-note p{margin:0 0 10px;font-size:15px;line-height:1.55}
+.adm-meta{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-size:12px;color:#9a9a94}
+.adm-tag{padding:3px 9px;border-radius:50px;border:1px solid rgba(111,207,151,.6);color:#6FCF97;font-size:11px;font-weight:600}
+.adm-copy{margin-left:auto;padding:7px 14px;border-radius:50px;border:1px solid rgba(255,255,255,.25);background:transparent;color:#F2F2EE;font-size:12px;font-weight:600;cursor:pointer}
+.adm-empty{color:#9a9a94;font-size:14px;padding:12px 0}
+.adm a{color:#E0503F}

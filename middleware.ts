@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
+import { isOwner } from '@/lib/owner';
 
 // The member area (/program, /member) is for paying, signed-in customers only.
 //   not signed in            -> /login
@@ -39,6 +40,9 @@ export async function middleware(req: NextRequest) {
     url.search = `?next=${encodeURIComponent(req.nextUrl.pathname)}`;
     return NextResponse.redirect(url);
   }
+
+  // the owner account can always look around the member area
+  if (isOwner(data.user.email)) return res;
 
   const { data: sub } = await supabase
     .from('subscriptions')

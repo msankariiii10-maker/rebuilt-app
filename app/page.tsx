@@ -4,31 +4,38 @@
 import './home.css';
 import HomeScene from '@/components/HomeScene';
 import HomeVideo from '@/components/HomeVideo';
+import { createAdminClient } from '@/lib/supabaseAdmin';
 
-const QUOTES = [
-  {
-    i: 'EC',
-    name: 'Emily Carter',
-    text: 'My job requires me to sit for hours, and my back pain was always something I had to worry about. After trying the REBUILT program, sitting for long periods feels completely different. I don’t have to constantly think about when my back is going to start hurting anymore. Thank you!',
-  },
-  {
-    i: 'SB',
-    name: 'Sophie Bennett',
-    text: 'I’ve suffered from sciatica going down my leg for a couple of years. I always thought stretching was what I needed, but REBUILT taught me how important strengthening my body was too. I’m only one month into the program and I already feel 10x better. Thank you so much!',
-  },
-  {
-    i: 'DB',
-    name: 'Daniel Brooks',
-    text: 'I’d been dealing with back pain for months whenever I went to the gym. After working on my hip mobility with the program, my deadlifts became way easier and, most importantly, pain-free. I can actually focus on lifting instead of worrying about my back.',
-  },
-  {
-    i: 'RM',
-    name: 'Ryan Mitchell',
-    text: 'Honestly, the first session felt like heaven. Everything felt loose and smooth afterward. But the best part was sitting down after the workout without feeling like my whole body was cramping up. That feeling alone made such a difference.',
-  },
-];
+// Real member stories only: notes that members wrote AND ticked "happy for Rebuilt to share anonymously".
+// Nothing shows here until a real member has agreed to share one.
+export const revalidate = 600;
+async function getQuotes(): Promise<{ i: string; name: string; text: string }[]> {
+  try {
+    const admin = createAdminClient();
+    const { data } = await admin
+      .from('checkins')
+      .select('user_id, note, day')
+      .eq('share_ok', true)
+      .not('note', 'is', null)
+      .order('day', { ascending: false })
+      .limit(60);
+    const seen = new Set<string>();
+    const out: { i: string; name: string; text: string }[] = [];
+    for (const r of data ?? []) {
+      const t = (r.note ?? '').trim();
+      if (t.length < 20 || seen.has(r.user_id)) continue;
+      seen.add(r.user_id);
+      out.push({ i: 'R', name: 'Rebuilt member', text: t });
+      if (out.length >= 3) break;
+    }
+    return out;
+  } catch {
+    return [];
+  }
+}
 
-export default function HomePage() {
+export default async function HomePage() {
+  const QUOTES = await getQuotes();
   return (
     <div className="hm-root">
       <HomeScene />
@@ -111,7 +118,8 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* TESTIMONIALS */}
+        {/* TESTIMONIALS: only real, consented member notes; hidden until there are some */}
+        {QUOTES.length > 0 && (
         <section className="hm-section">
           <div className="hm-wrap">
             <div className="hm-reveal">
@@ -136,6 +144,7 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+        )}
       </main>
 
       <footer className="hm-footer">

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Rebuilt member experience sample</title>
+<title>Rebuilt</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0B0B0A;--ink:#F2F2EE;--ink2:#A9A8A1;--ink3:#6E6D67;--red:#E0503F;--red2:#C0392B;--line:rgba(255,255,255,.1);--glass:rgba(22,22,20,.66);--ease:cubic-bezier(.22,.9,.24,1);--serif:Fraunces,Georgia,serif;--sans:Inter,Helvetica,sans-serif}
@@ -71,12 +71,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
 .exwrap{width:min(680px,100%);margin-top:26px;display:flex;flex-direction:column;gap:14px;padding-bottom:30px}
 .ex{display:grid;grid-template-columns:150px 1fr;gap:18px;padding:16px;align-items:center}
 .ex h3{font:400 22px var(--serif);letter-spacing:-.3px}.ex .m{display:flex;gap:14px;color:var(--ink2);font-size:13px;margin:6px 0 8px;flex-wrap:wrap}.ex .m b{color:var(--ink);font-weight:600}
-.ex p{color:var(--ink3);font-size:13px;line-height:1.5;margin-bottom:12px}.ex .go{font:700 11.5px var(--sans);letter-spacing:1.2px;text-transform:uppercase;color:var(--red)}.ex.done{opacity:.55}
-/* exercise cards rise in as they scroll into view */
-.ex[data-rv]{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.22,.61,.36,1),transform .7s cubic-bezier(.22,.61,.36,1)}
-.ex[data-rv="in"]{opacity:1;transform:none}
-.ex.done[data-rv="in"]{opacity:.55}
-@media(prefers-reduced-motion:reduce){.ex[data-rv]{opacity:1;transform:none;transition:none}.ex.done[data-rv]{opacity:.55}}.ex.done .go{color:#5BBF8A}
+.ex p{color:var(--ink3);font-size:13px;line-height:1.5;margin-bottom:12px}.ex .go{font:700 11.5px var(--sans);letter-spacing:1.2px;text-transform:uppercase;color:var(--red)}.ex.done{opacity:.55}.ex.done .go{color:#5BBF8A}
 .prog{font:600 11px var(--sans);letter-spacing:1.8px;color:var(--ink3);text-transform:uppercase;margin-top:16px}
 /* video player (demo) */
 .vp{position:relative;border-radius:14px;overflow:hidden;background:radial-gradient(circle at 50% 40%,rgba(224,80,63,.14),transparent 70%),#0f0f0e;border:1px solid var(--line);aspect-ratio:16/10;display:grid;place-items:center;cursor:pointer}
@@ -201,6 +196,68 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
 #demoBtn{font:500 10.5px var(--sans);color:var(--ink3);padding:4px 10px;border:1px solid var(--line);border-radius:50px;background:rgba(11,11,10,.78)}
 .dmenu{display:none;margin-top:6px;flex-direction:column;gap:2px;padding:6px;border-radius:12px;background:rgba(22,22,20,.96);border:1px solid var(--line)}.dmenu.on{display:flex}.dmenu button{text-align:left;font:500 12px var(--sans);color:var(--ink2);padding:8px 10px;border-radius:8px}.dmenu button:hover{background:rgba(255,255,255,.06);color:var(--ink)}
 .day.rest{opacity:.72;border-style:dashed;cursor:default;text-align:left}.day.rest .fc{color:var(--ink2)}.day.rest .mt{color:var(--ink3)}
+
+/* ---- Daily habits ---- */
+#s-habits{padding-top:104px;justify-content:flex-start}
+.hwrap{width:min(560px,100%);margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.hwrap h2{font:300 clamp(30px,5vw,40px)/1.08 var(--serif);letter-spacing:-.8px;text-align:center;margin-bottom:6px}.hwrap h2 em{color:var(--red);font-style:italic}
+.hstreak{padding:20px 22px;display:flex;flex-direction:column;gap:12px}
+.hstreak .row{display:flex;align-items:center;gap:16px}.hstreak .flame{width:46px;height:46px}
+.hstreak .n{font:800 40px/1 var(--sans);letter-spacing:-1.5px}.hstreak .n small{display:block;font:600 10.5px var(--sans);letter-spacing:1.6px;color:var(--ink3);text-transform:uppercase;margin-top:6px}
+.hstreak .cnt{margin-left:auto;text-align:right;font:600 13px var(--sans);color:var(--ink2)}.hstreak .cnt b{display:block;font:800 22px var(--sans);color:var(--ink)}
+.hstreak .pb{margin:0}.hstreak .pb i{transition:width .5s var(--ease)}
+.hbanner{display:none;align-items:center;gap:12px;padding:14px 18px;border-radius:16px;background:rgba(111,207,151,.12);border:1px solid rgba(111,207,151,.4);color:#CBEED8;font:600 14px var(--sans);animation:pop .6s var(--ease)}.hbanner.on{display:flex}
+.hcard{padding:20px 22px;transition:border-color .4s,background .4s}
+.hcard .hh{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.hcard .hi{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.05);border:1px solid var(--line);flex:none}
+.hcard .hi svg{width:20px;height:20px;stroke:var(--ink2)}
+.hcard .ht{font:600 16px var(--sans)}.hcard .hs{font:500 12.5px var(--sans);color:var(--ink3);margin-top:2px}
+.hcard .tick{margin-left:auto;width:28px;height:28px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;transition:all .35s var(--ease);flex:none}
+.hcard .tick svg{width:15px;height:15px;stroke:#0B0B0A;opacity:0;transform:scale(.4);transition:all .35s var(--ease)}
+.hcard.ok{border-color:rgba(111,207,151,.5);background:rgba(111,207,151,.06)}
+.hcard.ok .tick{background:#6FCF97;border-color:#6FCF97}.hcard.ok .tick svg{opacity:1;transform:none}
+.hcard.ok .hi{border-color:rgba(111,207,151,.5)}.hcard.ok .hi svg{stroke:#6FCF97}
+.hval{font:800 30px/1 var(--sans);letter-spacing:-1px}.hval small{font:500 15px var(--sans);color:var(--ink3);letter-spacing:0}
+.hcard .pb{margin:12px 0 14px}.hcard.ok .pb i{background:#6FCF97}
+.hcard input[type=range]{width:100%;accent-color:var(--red)}.hcard.ok input[type=range]{accent-color:#6FCF97}
+.hrow{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-top:12px}
+.glasses{display:grid;grid-template-columns:repeat(8,1fr);gap:8px}
+.gl{aspect-ratio:3/4;border-radius:6px 6px 12px 12px;border:1.5px solid rgba(255,255,255,.22);background:rgba(255,255,255,.03);position:relative;overflow:hidden;transition:border-color .3s}
+.gl::after{content:"";position:absolute;left:0;right:0;bottom:0;height:0;background:linear-gradient(#7CC4F2,#3F8FD0);transition:height .45s var(--ease)}
+.gl.f{border-color:#7CC4F2}.gl.f::after{height:84%}
+.hcard.ok .gl.f{border-color:#6FCF97}.hcard.ok .gl::after{background:linear-gradient(#8EE0B0,#4CB87C)}
+.sl{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.sl button{padding:14px 0;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.03);font:700 15px var(--sans);color:var(--ink2);transition:all .25s}
+.sl button small{display:block;font:500 10.5px var(--sans);color:var(--ink3);margin-top:3px}
+.sl button:hover{border-color:rgba(255,255,255,.4);color:var(--ink)}
+.sl button.sel{background:rgba(224,80,63,.14);border-color:var(--red);color:#fff}
+.hcard.ok .sl button.sel{background:rgba(111,207,151,.16);border-color:#6FCF97}
+.hnote{font:500 12.5px/1.5 var(--sans);color:var(--ink3);margin-top:12px}
+.hbtn{width:100%;padding:15px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.04);font:700 13px var(--sans);letter-spacing:.8px;text-transform:uppercase;color:var(--ink);transition:all .25s}
+.hbtn:hover{border-color:rgba(255,255,255,.4)}.hcard.ok .hbtn{background:rgba(111,207,151,.14);border-color:#6FCF97;color:#CBEED8}
+.hmini{display:flex;gap:8px;margin:12px 0 4px}.hmini i{flex:1;height:8px;border-radius:5px;background:var(--line);transition:background .4s}.hmini i.d{background:#6FCF97}
+@media(max-width:640px){.hcard,.hstreak{padding:18px}.glasses{gap:6px}}
+
+.hskip{display:inline-flex;align-items:center;gap:8px;font:600 12px var(--sans);color:var(--ink2)}.hskip i{width:7px;height:7px;border-radius:50%;background:#6FCF97;box-shadow:0 0 8px #6FCF97}
+.bfeel{padding:20px 22px}.bfeel .bq{font:600 16px var(--sans);margin-bottom:4px}.bfeel .bs{font:500 12.5px var(--sans);color:var(--ink3);margin-bottom:14px}
+.bf{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.bf button{padding:12px 0 10px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.03);font:700 13px var(--sans);color:var(--ink2);transition:all .25s}
+.bf button small{display:block;font:500 10.5px var(--sans);color:var(--ink3);margin-top:3px}
+.bf button:hover{border-color:rgba(255,255,255,.4);color:var(--ink)}.bf button.sel{background:rgba(224,80,63,.14);border-color:var(--red);color:#fff}
+.bfeel textarea{width:100%;margin-top:14px;padding:14px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--ink);font:500 14px/1.5 var(--sans);resize:none;outline:none}.bfeel textarea:focus{border-color:rgba(255,255,255,.4)}.bfeel textarea::placeholder{color:var(--ink3)}.bshare{display:flex;gap:10px;align-items:flex-start;margin-top:12px;font:500 12.5px/1.45 var(--sans);color:var(--ink2);cursor:pointer}.bshare input{margin-top:2px;accent-color:#E0503F;width:16px;height:16px;flex:none}
+.bfoot{display:flex;justify-content:space-between;align-items:center;margin-top:10px}.bfoot span{font:500 11px var(--sans);color:var(--ink3)}.bnq{margin:8px 0;padding-left:10px;border-left:2px solid var(--red);color:var(--ink);font-style:italic}
+.bins{display:none;margin-top:14px;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid var(--line);font:500 13px/1.5 var(--sans);color:var(--ink2)}.bins.on{display:block}.bins b{color:var(--ink)}.bins em{display:block;font:500 11px var(--sans);color:var(--ink3);font-style:normal;margin-top:6px}
+.recap .rb{display:flex;align-items:flex-end;gap:8px;height:74px;margin:6px 0 4px}
+.recap .rb div{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
+.recap .rb i{display:block;width:100%;min-height:5px;border-radius:5px;background:rgba(255,255,255,.12);transition:height .5s var(--ease)}
+.recap .rb i.full{background:#6FCF97}.recap .rb i.part{background:rgba(111,207,151,.5)}.recap .rb i.today{outline:1.5px solid rgba(255,255,255,.5)}
+.recap .rb span{font:600 10px var(--sans);color:var(--ink3);letter-spacing:.6px}
+.recap .rs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.recap .rs div{padding:12px 10px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+.recap .rs b{display:block;font:800 20px var(--sans);letter-spacing:-.5px}.recap .rs span{display:block;font:500 10.5px var(--sans);color:var(--ink3);margin-top:4px;letter-spacing:.3px}
+.recap .rs em{font:700 11px var(--sans);font-style:normal;color:#6FCF97}
+.recap .rin{margin-top:14px;font:500 13px/1.55 var(--sans);color:var(--ink2)}.recap .rin b{color:var(--ink)}
+.pill{font:600 10px var(--sans);letter-spacing:1.2px;text-transform:uppercase;color:var(--ink3);border:1px solid var(--line);border-radius:50px;padding:4px 10px}
 .screen.nb{padding-bottom:110px}#s-program{padding-top:128px}@media(min-width:900px){#s-program{padding-top:96px}}
 @media(max-width:640px){.bnav{width:calc(100vw - 24px)}.bnav button{flex:1;min-width:0}.demo{top:auto;bottom:calc(86px + env(safe-area-inset-bottom,0px));right:12px}}
 @media(max-width:860px){.dgrid{margin:0 auto}.ex{grid-template-columns:120px 1fr}}
@@ -289,9 +346,79 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
       <div class="card glass"><div class="lbl">Pain today</div><div class="big" id="dPain">3<small> / 10</small></div><div style="margin-top:16px"><button class="btn ghost sm" id="dLog">Log pain</button></div></div>
       <div class="card glass"><div class="lbl">Streak</div><div class="fl"><svg class="flame" viewBox="0 0 24 24" fill="#E0503F"><path d="M12 2c.5 3.2 3.8 5 3.8 9.1A3.8 3.8 0 0 1 12 15a3.8 3.8 0 0 1-3.8-3.9c0-1.6.8-2.6 1.5-3.6C8 8.2 6 10.2 6 13.5 6 17.6 8.7 21 12 21s6-3.4 6-7.5C18 8 13.5 6 12 2z"/></svg><div class="big"><span id="dStreak">6</span><small> days</small></div></div><div class="tnote" id="dStreakT">6 days of showing up.</div></div>
     </div>
+    <div class="card glass"><div class="lbl"><span>Today’s habits</span><span id="dhTxt">0 / 4</span></div><div class="hmini" id="dhMini"><i></i><i></i><i></i><i></i></div><div class="tnote" id="dhNote">Steps · Water · Sleep · Stretch</div><div style="margin-top:14px"><button class="btn ghost sm" id="dhOpen">Open habits</button></div></div>
+    <div class="card glass recap"><div class="lbl"><span>Weekly recap</span><span class="pill">Every Sunday</span></div>
+      <div class="rb" id="rBars"></div>
+      <div class="rs"><div><b id="rHab">–</b><span>Habits hit</span></div><div><span id="rWk0"></span><b id="rWk">4<small style="font-size:13px;color:var(--ink3)"> / 5</small></b><span id="rWkT">Workouts</span></div><div><b id="rPain">–</b><span id="rPainT">Avg pain</span></div></div>
+      <div class="rin" id="rIn"></div></div>
     <div class="card glass"><div class="lbl">Streak details</div><div class="srow" style="margin:0;padding:0;border:0"><div><b id="sCur" style="font:inherit">6</b><span>Current streak</span></div><div><b id="sLong" style="font:inherit">14</b><span>Longest streak</span></div><div><b id="sSes" style="font:inherit">22</b><span>Sessions completed</span></div></div></div>
     <div class="card glass"><div class="lbl"><span>Program progress</span><span>Week 2 of 6</span></div><div class="pb"><i style="width:42%"></i></div><div class="tnote">42% complete</div></div>
     <div class="card glass trend"><div class="lbl"><span>Recent pain trend</span><span id="trTxt"></span></div><div id="trSvg"></div></div>
+  </div>
+</section>
+
+
+<section class="screen nb" id="s-habits">
+  <div class="hwrap">
+    <div class="eyebrow">Daily habits</div>
+    <h2>Small things. Big <em>recovery.</em></h2>
+    <div class="hstreak glass">
+      <div class="row">
+        <svg class="flame" viewBox="0 0 24 24" fill="#E0503F"><path d="M12 2c.5 3.2 3.8 5 3.8 9.1A3.8 3.8 0 0 1 12 15a3.8 3.8 0 0 1-3.8-3.9c0-1.6.8-2.6 1.5-3.6C8 8.2 6 10.2 6 13.5 6 17.6 8.7 21 12 21s6-3.4 6-7.5C18 8 13.5 6 12 2z"/></svg>
+        <div class="n"><span id="hStreak">6</span><small>Day habit streak</small></div>
+        <div class="cnt"><b id="hCount">0 / 4</b>done today</div>
+      </div>
+      <div class="pb"><i id="hBar" style="width:0%"></i></div>
+      <div class="hskip"><i></i>1 free skip available this week · one missed day won’t reset your streak</div>
+    </div>
+    <div class="hbanner" id="hBanner"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6FCF97" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span id="hBannerT">All four done. Another day rebuilt.</span></div>
+
+    <div class="bfeel hcard glass" id="hc-back">
+      <div class="bq">How does your back feel today?</div>
+      <div class="bs">Tap how it feels, then tell us in your own words. It goes into your pain log.</div>
+      <div class="bf" id="bf"></div>
+      <textarea id="bnote" rows="3" maxlength="400" placeholder="What did you feel today? Stiff when you woke up, better after walking, sore after sitting..."></textarea>
+      <label class="bshare"><input type="checkbox" id="bshare"> I’m happy for Rebuilt to share this note anonymously (no name, no details).</label>
+      <div class="bfoot"><span id="bcount">0 / 400</span><button class="btn sm" id="bsave">Save note</button></div>
+      <div class="bins" id="bins"></div>
+    </div>
+
+    <div class="hcard glass" id="hc-steps">
+      <div class="hh"><div class="hi"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4c2 0 3 1.8 3 4s-1 4-3 4-3-1.6-3-4 1-4 3-4zM16 12c2 0 3 1.6 3 3.5S18 20 16 20s-3-2.6-3-4.5 1-3.5 3-3.5z"/></svg></div>
+        <div><div class="ht">Steps</div><div class="hs">Goal · 10,000 a day</div></div>
+        <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div></div>
+      <div class="hval"><span id="stN">0</span><small> / 10,000</small></div>
+      <div class="pb"><i id="stBar" style="width:0%"></i></div>
+      <input type="range" id="stR" min="0" max="15000" step="250" value="0" aria-label="Steps today">
+      <div class="hrow"><span class="hs" id="stMsg">Slide to your step count, or tap the button.</span></div>
+      <button class="hbtn" id="stBtn" style="margin-top:12px">I hit 10,000 steps</button>
+    </div>
+
+    <div class="hcard glass" id="hc-water">
+      <div class="hh"><div class="hi"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.2 6 10.5A6 6 0 0 1 6 13.5C6 9.2 12 3 12 3z"/></svg></div>
+        <div><div class="ht">Water</div><div class="hs">Goal · 8 glasses</div></div>
+        <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div></div>
+      <div class="hval"><span id="wN">0</span><small> / 8 glasses</small></div>
+      <div class="glasses" id="glasses" style="margin-top:16px"></div>
+      <div class="hnote">Tap a glass to fill it. Tap the last filled glass again to undo.</div>
+    </div>
+
+    <div class="hcard glass" id="hc-sleep">
+      <div class="hh"><div class="hi"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></svg></div>
+        <div><div class="ht">Sleep</div><div class="hs">Goal · 7 hours or more</div></div>
+        <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div></div>
+      <div class="hs" style="margin-bottom:12px">How many hours did you sleep last night?</div>
+      <div class="sl" id="sl"></div>
+      <div class="hnote">Sleep is when your back actually repairs.</div>
+    </div>
+
+    <div class="hcard glass" id="hc-stretch">
+      <div class="hh"><div class="hi"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><path d="M12 8v6M7 11l5 1 5-4M9 21l3-7 3 7"/></svg></div>
+        <div><div class="ht">Stretch break</div><div class="hs">Goal · one break away from your chair</div></div>
+        <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div></div>
+      <div class="hnote" style="margin:0 0 14px" id="stretchTip">Today’s idea: 60 seconds of standing hip-flexor stretch, each side.</div>
+      <button class="hbtn" id="strBtn">Did my stretch break</button>
+    </div>
   </div>
 </section>
 
@@ -312,9 +439,10 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
 <nav class="bnav" id="bnav" aria-label="Main">
   <button data-jump="dash" data-n="dash"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg><span>Dashboard</span></button>
   <button data-jump="program" data-n="program"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><span>Program</span></button>
+  <button data-jump="habits" data-n="habits"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 12.2l2.5 2.5 4.5-5"/></svg><span>Habits</span></button>
   <button data-jump="pain" data-n="pain"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-6 4 3 5-8 4 5"/><path d="M3 21h18"/></svg><span>Pain log</span></button>
 </nav>
-<div class="demo"><button id="demoBtn">Menu</button><div class="dmenu" id="dmenu"><button onclick="location.href='/api/sign-out'">Sign out</button><button data-jump="done">Show day-complete screen</button><button id="reset">↺ Restart demo</button></div></div>
+<div class="demo"><button id="demoBtn">Menu</button><div class="dmenu" id="dmenu"><button onclick="location.href='/api/sign-out'">Sign out</button></div></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
@@ -322,10 +450,9 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
 const mobile=()=>innerWidth<640;
-const S={gender:null,age:30,photo:null,day:2,ex:0,done:{},streak:6,longest:14,sessions:22,doneToday:false,pain:[],painBefore:3,after:null,painSel:null,afterSel:null};
+const S={habits:{steps:0,water:0,sleep:null,stretch:false,counted:false},hstreak:0,gender:null,age:30,photo:null,day:2,ex:0,done:{},streak:0,longest:0,sessions:0,doneToday:false,pain:[],painBefore:null,wk:0,after:null,painSel:null,afterSel:null};
 /* seed pain history: 14 days */
-(function(){const v=[7,7,6,7,6,6,5,6,5,5,4,4,4,3];const now=new Date();v.forEach((s,i)=>{const d=new Date(now);d.setDate(now.getDate()-(v.length-1-i));S.pain.push({date:d.toISOString().slice(0,10),score:s,where:'Lower back',note:''})})})();
-const todayKey=()=>new Date().toISOString().slice(0,10);
+const dk=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');const todayKey=()=>dk(new Date());var LIVE=false,HIST={},lastSent='';
 
 /* ---- data ---- */
 const DAYS=[
@@ -349,7 +476,7 @@ let cur='enter',zooming=false;
 function go(n){
   cur=n; if(n==='body')$('#s-body').style.opacity='';
   $$('.screen').forEach(s=>s.classList.toggle('on',s.id==='s-'+n));
-  const idx={enter:0,profile:0,photo:1,body:2,program:3,day:3,focus:3,done:3,dash:4,pain:4}[n];
+  const idx={enter:0,profile:0,photo:1,body:2,program:3,day:3,focus:3,done:3,dash:4,pain:4,habits:4}[n];
   $$('#steps b').forEach((b,i)=>b.classList.toggle('on',i<=idx));
   $('#close').classList.toggle('on',n==='focus');navState(n);$('#dmenu').classList.remove('on');
   $('#chiptxt').textContent=(S.gender||'')+' · '+S.age;
@@ -357,14 +484,14 @@ function go(n){
   const bb=$('#back');bb.classList.toggle('on',n==='program'||n==='day');bb.textContent=n==='program'?'← Body':'← Weekly program';
   $('#pbg').classList.toggle('on',n==='program');$('#dbg').classList.toggle('on',n==='dash');
   
-  if(n==='body')setupBody(); if(n==='program')setupProgram(); if(n==='dash'){setupDash();renderDash()} if(n==='pain')renderPain();
+  if(n==='body')setupBody(); if(n==='program')setupProgram(); if(n==='dash'){setupDash();renderDash()} if(n==='pain')renderPain(); if(n==='habits'){renderHabits();renderBack()}
 }
 $$('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
-function navState(n){$('#bnav').classList.toggle('on',['dash','pain','program','day'].includes(n));$$('#bnav button').forEach(b=>b.classList.toggle('act',b.dataset.n===(n==='day'?'program':n)));$$('.screen').forEach(sc=>sc.classList.toggle('nb',['s-dash','s-pain','s-program','s-day'].includes(sc.id)))}
+function navState(n){$('#bnav').classList.toggle('on',['dash','pain','program','day','habits'].includes(n));$$('#bnav button').forEach(b=>b.classList.toggle('act',b.dataset.n===(n==='day'?'program':n)));$$('.screen').forEach(sc=>sc.classList.toggle('nb',['s-dash','s-pain','s-program','s-day','s-habits'].includes(sc.id)))}
 $('#demoBtn').onclick=()=>$('#dmenu').classList.toggle('on');
 $('#back').onclick=()=>{ if(cur==='program'){zooming=false;go('body')} else go('program') };
 $$('[data-jump]').forEach(b=>b.onclick=()=>{ if(!S.gender){S.gender='Male'} ; const j=b.dataset.jump; if(j==='done'){S.day=0;prepDone()} if(j==='program')renderDays(); go(j)});
-$('#reset').onclick=()=>location.reload();
+
 $$('.choice').forEach(c=>c.onclick=()=>{$$('.choice').forEach(x=>x.classList.remove('sel'));c.classList.add('sel');S.gender=c.dataset.g;$('#p1c').disabled=false});
 $('#p1c').onclick=()=>{$('#p1').classList.remove('on');$('#p2').classList.add('on')};
 const setAge=v=>{S.age=Math.max(14,Math.min(90,v));$('#an').textContent=S.age;$('#ar').value=S.age};
@@ -395,18 +522,7 @@ function openDay(i){
   $('#dProg').textContent=Object.keys(dn).length+' of '+d.ex.length+' complete · '+d.min+' min';
   $('#exlist').innerHTML=d.ex.map((e,j)=>`<div class="ex glass ${dn[j]?'done':''}">${vbox(e)}<div><h3>${e[0]}</h3><div class="m"><span><b>${e[1]}</b></span><span>Rest ${e[2]?e[2]+'s':'—'}</span></div><p>${e[3]}</p><button class="go" data-j="${j}">${dn[j]?'Completed ✓':'Start exercise →'}</button></div></div>`).join('');
   $$('.go').forEach(b=>b.onclick=()=>{S.ex=+b.dataset.j;renderFocus();go('focus')});
-  revealEx();
   go('day');
-}
-/* cards on screen when the day opens come in one after another; the rest rise in as you scroll to them */
-let exIO=null;
-function revealEx(){
-  if(exIO)exIO.disconnect();
-  if(!('IntersectionObserver' in window))return;
-  exIO=new IntersectionObserver(es=>{let k=0;es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target;
-    el.style.transitionDelay=(k++*.1)+'s';el.addEventListener('transitionend',()=>{el.style.transitionDelay=''},{once:true});
-    el.dataset.rv='in';exIO.unobserve(el)})},{threshold:.15});
-  $$('#exlist .ex').forEach(el=>{el.dataset.rv='';exIO.observe(el)});
 }
 let tInt=null,tLeft=0,tRun=false;const fmt=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
 function renderFocus(){
@@ -422,17 +538,17 @@ $('#fDone').onclick=()=>{(S.done[S.day]=S.done[S.day]||{})[S.ex]=true;if(S.ex<DA
 $('#close').onclick=()=>{clearInterval(tInt);openDay(S.day)};
 function finish(){clearInterval(tInt);if(dayDone(S.day)===DAYS[S.day].ex.length){prepDone();go('done')}else openDay(S.day)}
 function scale(el,cb){el.innerHTML=Array.from({length:11},(_,i)=>`<button data-v="${i}">${i}</button>`).join('');$$('#'+el.id+' button').forEach(b=>b.onclick=()=>{$$('#'+el.id+' button').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');cb(+b.dataset.v)})}
-function prepDone(){const d=DAYS[S.day];$('#stEx').textContent=d.ex.length+' / '+d.ex.length;$('#stTime').textContent=d.min+' min';$('#stBefore').textContent=S.painBefore+' / 10';
+function prepDone(){const d=DAYS[S.day];$('#stEx').textContent=d.ex.length+' / '+d.ex.length;$('#stTime').textContent=d.min+' min';$('#stBefore').textContent=S.painBefore==null?'–':S.painBefore+' / 10';
   $('#ph1').classList.add('on');$('#ph2').classList.remove('on');S.afterSel=null;$('#afterGo').disabled=true;scale($('#afterScale'),v=>{S.afterSel=v;$('#afterGo').disabled=false})}
 $('#afterGo').onclick=()=>{
   if(S.afterSel!=null)upsertPain(S.afterSel,'Lower back','After session');
-  const old=S.doneToday?S.streak:S.streak;if(!S.doneToday){S.streak++;S.sessions++;S.longest=Math.max(S.longest,S.streak);S.doneToday=true}
+  const old=S.doneToday?S.streak:S.streak;if(!S.doneToday){S.streak++;S.sessions++;S.longest=Math.max(S.longest,S.streak);S.doneToday=true;S.wk=S.day+1;syncQueue()}
   $('#rOld').textContent=old;$('#rNew').textContent=S.streak;$('#ph1').classList.remove('on');$('#ph2').classList.add('on');$('#rNew').classList.remove('pop');void $('#rNew').offsetWidth;setTimeout(()=>$('#rNew').classList.add('pop'),400)};
 $('#toDash').onclick=()=>go('dash');
 
 /* pain */
-function upsertPain(score,where,note){const k=todayKey();const e=S.pain.find(p=>p.date===k);if(e){e.score=score;e.where=where;if(note)e.note=note}else S.pain.push({date:k,score,where,note:note||''});S.pain.sort((a,b)=>a.date<b.date?-1:1);try{localStorage.setItem('rb_pain_demo',JSON.stringify(S.pain))}catch(e){}}
-function line(data,w,h,opts){opts=opts||{};const pad=opts.pad||{l:26,r:10,t:10,b:22};const n=data.length,x=i=>pad.l+(n<2?0:i/(n-1))*(w-pad.l-pad.r),y=v=>pad.t+(1-v/10)*(h-pad.t-pad.b);
+function upsertPain(score,where,note){const k=todayKey();const e=S.pain.find(p=>p.date===k);if(e){e.score=score;e.where=where;if(note)e.note=note}else S.pain.push({date:k,score,where,note:note||''});S.pain.sort((a,b)=>a.date<b.date?-1:1);try{localStorage.setItem('rb_pain_demo',JSON.stringify(S.pain))}catch(e){}syncQueue()}
+function line(data,w,h,opts){opts=opts||{};if(!data||!data.length)return '<text x="50%" y="50%" text-anchor="middle" fill="#77776f" font-size="13" font-family="sans-serif">Your trend appears after your first log</text>';const pad=opts.pad||{l:26,r:10,t:10,b:22};const n=data.length,x=i=>pad.l+(n<2?0:i/(n-1))*(w-pad.l-pad.r),y=v=>pad.t+(1-v/10)*(h-pad.t-pad.b);
   let g='';[0,5,10].forEach(v=>{g+=`<line x1="${pad.l}" x2="${w-pad.r}" y1="${y(v)}" y2="${y(v)}" stroke="rgba(255,255,255,.08)"/><text x="${pad.l-8}" y="${y(v)+3}" text-anchor="end" fill="#6E6D67" font-size="9" font-family="Inter">${v}</text>`});
   const pts=data.map((d,i)=>[x(i),y(d.score)]);const path=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
   const area=path+` L${pts[n-1][0]} ${y(0)} L${pts[0][0]} ${y(0)} Z`;
@@ -454,6 +570,7 @@ function renderDash(){
   $('#dTag').textContent=S.doneToday?'Done':'Ready';$('#dCont').textContent=S.doneToday?'Review program':'Continue program';$('#dCont').onclick=()=>S.doneToday?(renderDays(),go('program')):openDay(nx);
   const t=S.pain.find(p=>p.date===todayKey());$('#dPain').innerHTML=(t?t.score:'–')+'<small> / 10</small>';
   $('#dStreak').textContent=S.streak;$('#dStreakT').textContent=S.streak+' days of showing up.';$('#sCur').textContent=S.streak;$('#sLong').textContent=S.longest;$('#sSes').textContent=S.sessions;
+  renderRecap();{const d=hDone(),n=habitCount();$('#dhTxt').textContent=n+' / 4';$$('#dhMini i').forEach((el,i)=>el.classList.toggle('d',Object.values(d)[i]));$('#dhNote').textContent=n===4?'All done today. Habit streak '+S.hstreak+' days.':'Steps · Water · Sleep · Stretch'}
   $('#trSvg').innerHTML=line(S.pain.slice(-14),480,130,{pad:{l:22,r:8,t:8,b:6}});const tt=trendText();$('#trTxt').textContent=tt.k;
 }
 $('#dLog').onclick=()=>go('pain');
@@ -647,7 +764,94 @@ function loop(ts){requestAnimationFrame(loop);const dt=Math.min(.05,(ts-lastT)/1
   camera.position.set(0,camNow.y,camNow.z);camera.lookAt(0,camNow.fy,0);renderer.render(scene,camera);
   const w=innerWidth,h=innerHeight;hotspots.forEach(o=>{const v=o.p.clone();body.localToWorld(v);v.project(camera);o.el.style.left=((v.x*.5+.5)*w)+'px';o.el.style.top=((-v.y*.5+.5)*h)+'px';const vis=hsOn&&camGoal==='full';o.el.style.opacity=vis?1:0;o.el.style.pointerEvents=vis&&!o.lock?'auto':'none'});
 }
+
+function realInsight(){const rows=Object.keys(HIST).map(k=>({k,h:HIST[k],p:(S.pain.find(x=>x.date===k)||{}).score})).filter(r=>r.p!=null);
+  const w=rows.filter(r=>r.h.steps>=10000),n=rows.filter(r=>r.h.steps<10000),av=x=>x.reduce((s,r)=>s+r.p,0)/x.length;
+  if(w.length>=3&&n.length>=3){const d=av(n)-av(w);if(d>=0.5)return' On the days you hit 10,000 steps, your back felt about <b>'+d.toFixed(1)+' points better</b>.'}
+  return' Keep checking in. After a couple of weeks we’ll show you what helps your back most.'}
+function snap(){const t=S.pain.find(p=>p.date===todayKey()),h=S.habits,n=$('#bnote'),sh=$('#bshare');
+  return{day:todayKey(),pain_score:t?t.score:null,note:t&&t.note&&t.note!=='After session'?t.note:(n?n.value.trim():''),share_ok:!!(sh&&sh.checked),habits:{steps:h.steps,water:h.water,sleep:h.sleep,stretch:!!h.stretch,workout:S.wk||0}}}
+let _sq=null;
+function syncQueue(){if(!LIVE)return;const sn=snap();HIST[sn.day]=sn.habits;const j=JSON.stringify(sn);if(j===lastSent)return;clearTimeout(_sq);_sq=setTimeout(()=>{try{fetch('/api/checkin',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:j}).then(r=>{if(r.ok)lastSent=j}).catch(()=>{})}catch(e){}},400)}
+(()=>{const sh=$('#bshare');if(sh)sh.onchange=()=>syncQueue()})();
+async function loadCheckins(){
+  try{
+    const r=await fetch('/api/checkin',{credentials:'same-origin',cache:'no-store'});if(!r.ok)return;
+    const d=await r.json();if(!d||!Array.isArray(d.rows))return;
+    LIVE=true;S.pain=[];HIST={};
+    d.rows.forEach(x=>{HIST[x.day]=x.habits||{};if(x.pain_score!=null)S.pain.push({date:x.day,score:x.pain_score,where:'Lower back',note:x.note||''})});
+    S.pain.sort((a,b)=>a.date<b.date?-1:1);
+    const t=d.rows.find(x=>x.day===todayKey());
+    if(t){const h=t.habits||{};S.habits.steps=h.steps||0;S.habits.water=h.water||0;S.habits.sleep=h.sleep==null?null:h.sleep;S.habits.stretch=!!h.stretch;S.habits.counted=hCountOf(h)===4;
+      const n=$('#bnote');if(n&&t.note){n.value=t.note;$('#bcount').textContent=t.note.length+' / 400'}const sh=$('#bshare');if(sh)sh.checked=!!t.share_ok}
+    const keys=Object.keys(HIST).sort();const sim=pred=>{let run=0,longest=0,lastSkip=-99;if(!keys.length)return{cur:0,longest:0};const f=new Date(keys[0]+'T12:00:00'),tk=todayKey();let i=0;
+      for(let dt=new Date(f);dk(dt)<tk;dt.setDate(dt.getDate()+1),i++){if(pred(HIST[dk(dt)]))run++;else if(i-lastSkip>=7)lastSkip=i;else run=0;longest=Math.max(longest,run)}
+      if(pred(HIST[tk]))run++;longest=Math.max(longest,run);return{cur:run,longest}};
+    S.hstreak=sim(h=>hCountOf(h)===4).cur;
+    const ws=sim(h=>h&&h.workout>0);S.streak=ws.cur;S.longest=ws.longest;S.sessions=keys.filter(k=>HIST[k]&&HIST[k].workout>0).length;
+    const th=HIST[todayKey()];S.doneToday=!!(th&&th.workout>0);S.wk=S.doneToday?th.workout:0;
+    const lw=keys.filter(k=>HIST[k]&&HIST[k].workout>0).pop();
+    if(lw){const li=HIST[lw].workout-1;S.day=S.doneToday?li:(li+1)%DAYS.length}else S.day=0;
+    renderDays();
+    lastSent=JSON.stringify(snap());
+    S.back=null;renderHabits();renderBack();renderRecap();
+  }catch(e){console.error('check-ins not loaded',e)}
+}
 try{const sv=JSON.parse(localStorage.getItem('rb_pain_demo')||'null');if(Array.isArray(sv)&&sv.length>5&&false)S.pain=sv}catch(e){}
+
+/* ---- Daily habits ---- */
+const hDone=()=>{const h=S.habits;return{steps:h.steps>=10000,water:h.water>=8,sleep:h.sleep!=null&&h.sleep>=7,stretch:h.stretch}};
+function habitCount(){return Object.values(hDone()).filter(Boolean).length}
+function renderHabits(){
+  const h=S.habits,d=hDone(),n=habitCount();
+  $('#stN').textContent=h.steps.toLocaleString('en-US');$('#stR').value=h.steps;$('#stBar').style.width=Math.min(100,h.steps/100)+'%';
+  $('#stMsg').textContent=d.steps?'Goal reached. Nice walking.':(10000-h.steps).toLocaleString('en-US')+' steps to go.';
+  $('#wN').textContent=h.water;$$('#glasses .gl').forEach((g,i)=>g.classList.toggle('f',i<h.water));
+  $$('#sl button').forEach(b=>b.classList.toggle('sel',+b.dataset.h===h.sleep));
+  $('#strBtn').textContent=h.stretch?'Stretch break done ✓':'Did my stretch break';
+  [['steps',d.steps],['water',d.water],['sleep',d.sleep],['stretch',d.stretch]].forEach(([k,v])=>$('#hc-'+k).classList.toggle('ok',!!v));
+  // streak grows once when all four are done today
+  if(n===4&&!h.counted){h.counted=true;S.hstreak++;$('#hBanner').classList.remove('on');void $('#hBanner').offsetWidth;$('#hBannerT').textContent='All four done. Habit streak: '+S.hstreak+' days. Another day rebuilt.';$('#hBanner').classList.add('on')}
+  else if(n<4&&h.counted){h.counted=false;S.hstreak--;$('#hBanner').classList.remove('on')}
+  if(typeof renderRecap==='function')renderRecap();syncQueue();$('#hStreak').textContent=S.hstreak;$('#hCount').textContent=n+' / 4';$('#hBar').style.width=(n*25)+'%';
+}
+(()=>{
+  const g=$('#glasses');for(let i=0;i<8;i++){const b=document.createElement('button');b.className='gl';b.setAttribute('aria-label','Glass '+(i+1));b.onclick=()=>{S.habits.water=(S.habits.water===i+1)?i:i+1;renderHabits()};g.appendChild(b)}
+  const sl=$('#sl');[[5,'hours'],[6,'hours'],[7,'goal'],[8,'hours'],[9,'or more']].forEach(([v,t])=>{const b=document.createElement('button');b.dataset.h=v;b.innerHTML=v+(v===9?'+':'')+'<small>'+t+'</small>';b.onclick=()=>{S.habits.sleep=v;renderHabits()};sl.appendChild(b)});
+  $('#stR').oninput=e=>{S.habits.steps=+e.target.value;renderHabits()};
+  $('#stBtn').onclick=()=>{S.habits.steps=10000;renderHabits()};
+  $('#strBtn').onclick=()=>{S.habits.stretch=!S.habits.stretch;renderHabits()};
+  $('#dhOpen').onclick=()=>go('habits');
+})();
+
+/* ---- back check-in + weekly recap ---- */
+const BACK=[['Great',1,'1/10'],['Good',2,'2/10'],['Okay',4,'4/10'],['Stiff',6,'6/10'],['Sore',8,'8/10']];
+(()=>{const bf=$('#bf');BACK.forEach(([t,v,sm])=>{const b=document.createElement('button');b.dataset.v=v;b.innerHTML=t;b.onclick=()=>{S.back=v;upsertPain(v,'Lower back',($('#bnote')||{}).value||'');renderBack(true)};bf.appendChild(b)})})();
+function renderBack(fresh){const _n=$('#bnote');
+  const t=S.pain.find(p=>p.date===todayKey());if(S.back==null&&t){S.back=(BACK.find(b=>b[1]===t.score)||[0,null])[1]}
+  $$('#bf button').forEach(b=>b.classList.toggle('sel',+b.dataset.v===S.back));
+  const el=$('#bins');if(S.back==null){el.classList.remove('on');return}
+  const walked=S.habits.steps>=10000;if(LIVE){const ins=realInsight();el.innerHTML='<b>Saved to your pain log.</b>'+(_n&&_n.value.trim()?'<div class="bnq">“'+_n.value.trim().replace(/</g,'&lt;')+'”</div>':' ')+ins;el.classList.add('on');return}
+  const _t=_n&&_n.value.trim();el.innerHTML='<b>Saved to your pain log.</b>'+(_t?'<div class="bnq">“'+_t.replace(/</g,'&lt;')+'”</div>':' ')+(walked?'You hit your steps today, and over the last few weeks your back felt about <b>2 points better</b> on days you did.':'Over the last few weeks your back felt about <b>2 points better</b> on days you hit 10,000 steps.')+'<em>Sample insight. In the live app it is calculated from each member’s own data.</em>';
+  el.classList.add('on');
+}
+function weekDays(){const out=[];for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);out.push(d)}return out}
+function hCountOf(h){return h?((h.steps>=10000?1:0)+(h.water>=8?1:0)+(h.sleep!=null&&h.sleep>=7?1:0)+(h.stretch?1:0)):0}
+function renderRecap(){
+  const wd=weekDays(),L=['S','M','T','W','T','F','S'];
+  const all=LIVE?wd.map((d,i)=>i===6?habitCount():hCountOf(HIST[dk(d)])):[4,3,4,2,4,3].concat([habitCount()]);
+  $('#rBars').innerHTML=all.map((n,i)=>'<div><i class="'+(n===4?'full':n>0?'part':'')+(i===6?' today':'')+'" style="height:'+Math.max(6,n*25)+'%"></i><span>'+L[wd[i].getDay()]+'</span></div>').join('');
+  const tot=all.reduce((a,b)=>a+b,0);$('#rHab').innerHTML=tot+'<small style="font-size:13px;color:var(--ink3)"> / 28</small>';
+  const a=S.pain.slice(-7),b=S.pain.slice(-14,-7),avg=x=>x.reduce((s,p)=>s+p.score,0)/(x.length||1),d=avg(b)-avg(a);
+  if(LIVE){$('#rWk').innerHTML='<b>'+S.hstreak+'</b>';$('#rWkT').textContent='Habit streak'}
+  $('#rPain').innerHTML=a.length?avg(a).toFixed(1)+' <em>'+(b.length&&d>=0.1?'↓ '+d.toFixed(1):b.length&&d<=-0.1?'↑ '+(-d).toFixed(1):'')+'</em>':'–';$('#rPainT').textContent=b.length?'Avg pain vs last week':'Avg pain';
+  if(LIVE){let bi=-1,bn=0;all.forEach((n,i)=>{if(n>bn){bn=n;bi=i}});const nm=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    $('#rIn').innerHTML=bi<0?'Tick off your habits and check in on your back. Your recap builds from here.':'Your <b>best day</b> was '+nm[wd[bi].getDay()]+' with '+bn+' of 4 habits.'+(b.length&&d>=0.5?' Pain is trending down. Keep it going.':'');
+  }else $('#rIn').innerHTML='Your <b>best day</b> was Wednesday: all four habits and a pain score of 3. '+(d>=0.5?'Pain is trending down. Keep it going.':'Steady week. Keep showing up.')+' <span style="color:var(--ink3)">(Sample recap)</span>';
+}
+
+(()=>{const n=$('#bnote');n.oninput=()=>{$('#bcount').textContent=n.value.length+' / 400'};
+$('#bsave').onclick=()=>{if(S.back==null&&!n.value.trim())return;const t=S.pain.find(p=>p.date===todayKey());const sc=S.back!=null?S.back:(t?t.score:4);upsertPain(sc,'Lower back',n.value.trim());S.bsaved=true;renderBack(true)}})();
 renderDays();
 /* Returning member: gender + age were saved the first time, so skip the questions and go straight to the body page ("Where are we rebuilding?"). */
 (async()=>{
@@ -658,6 +862,7 @@ renderDays();
     if(r.ok){const d=await r.json(); if(d&&d.gender&&d.age){S.gender=d.gender;setAge(d.age);renderDays();go('body')}}
   }catch(e){console.error('returning-member shortcut failed',e)}
   clearTimeout(t); finish();
+  loadCheckins();
 })();
 })();
 

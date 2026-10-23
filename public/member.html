@@ -875,7 +875,7 @@ renderDays();
   const finish=()=>root.classList.remove('boot'); const t=setTimeout(finish,2500);
   try{
     const r=await fetch('/api/member-profile',{credentials:'same-origin',cache:'no-store'});
-    if(r.ok){const d=await r.json(); if(d&&d.gender&&d.age){S.gender=d.gender;setAge(d.age);renderDays();go('body')}}
+    if(r.ok){const d=await r.json(); if(d&&d.owner){const b=document.createElement('button');b.textContent='Member notes';b.onclick=()=>location.href='/admin';$('#dmenu').prepend(b)} if(d&&d.gender&&d.age){S.gender=d.gender;setAge(d.age);renderDays();go('body')}}
   }catch(e){console.error('returning-member shortcut failed',e)}
   clearTimeout(t); finish();
   loadCheckins();

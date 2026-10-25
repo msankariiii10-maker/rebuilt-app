@@ -71,6 +71,11 @@ export default async function AdminPage() {
       <div className="adm-in">
         <h1>Member notes</h1>
         <div className="sub">Only you can see this page. Signed in as {u.user.email}.</div>
+        <div className="adm-nav">
+          <a href="/program">Open the program →</a>
+          <a href="/">Homepage</a>
+          <a href="/api/sign-out">Sign out</a>
+        </div>
 
         <div className="adm-stats">
           <div className="adm-stat"><b>{members}</b><span>Members with check-ins</span></div>

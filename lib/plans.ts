@@ -5,15 +5,15 @@
 export type Plan = 'monthly' | 'yearly';
 
 export const MONTHLY_PRICE = 9.99;
-export const YEARLY_PRICE = 79;
+export const YEARLY_PRICE = 89;
 
 const money = (n: number) => `$${(Math.round(n * 100) / 100).toFixed(2)}`;
 
 export const PRICES = {
   monthly: money(MONTHLY_PRICE), // "$9.99"
-  yearly: `$${YEARLY_PRICE}`, // "$79"
-  yearlyPerMonth: money(YEARLY_PRICE / 12), // "$6.58"
-  yearlySavePct: Math.round((1 - YEARLY_PRICE / (MONTHLY_PRICE * 12)) * 100), // 34
+  yearly: `$${YEARLY_PRICE}`, // "$89"
+  yearlyPerMonth: money(YEARLY_PRICE / 12), // "$7.42"
+  yearlySavePct: Math.round((1 - YEARLY_PRICE / (MONTHLY_PRICE * 12)) * 100), // 26
 };
 
 export function parsePlan(value: unknown): Plan {

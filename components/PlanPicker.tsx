@@ -1,7 +1,7 @@
 'use client';
 
 // The Monthly / Yearly switch in the homepage "Start today" card.
-// Yearly is shown as its monthly cost ($6.58 / month) so the saving is easy to see,
+// Yearly is shown as its monthly cost ($7.42 / month) so the saving is easy to see,
 // and the button sends people to checkout with that plan already picked.
 
 import { useState } from 'react';

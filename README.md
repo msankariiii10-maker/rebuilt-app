@@ -11,8 +11,8 @@ a real Stripe Checkout Session.
   (`app/globals.css`) instead of scattered inline styles.
 - **Legal pages** (`/legal/privacy`, `/legal/terms`, `/legal/medical`) —
   same content as before, now real routes with a shared nav.
-- **Real checkout** (`/checkout`) — two plans, $9.99/month or $79/year
-  (shown as $6.58/month), creates an actual Stripe Checkout Session via
+- **Real checkout** (`/checkout`) — two plans, $9.99/month or $89/year
+  (shown as $7.42/month), creates an actual Stripe Checkout Session via
   `/api/create-checkout-session`. Displayed prices live in `lib/plans.ts`.
 - **The program itself, wired to Supabase — not mock data:**
   - `/program` — cover page, tap to enter
@@ -64,7 +64,7 @@ videos are hosted somewhere like Mux/Cloudinary).
 1. Stripe Dashboard → Product catalog → product "Rebuilt Program" with
    two Prices:
    - $9.99, Recurring, Monthly, **lookup key** `rebuilt_monthly`
-   - $79, Recurring, Yearly, **lookup key** `rebuilt_yearly`
+   - $89, Recurring, Yearly, **lookup key** `rebuilt_yearly`
    (override with `NEXT_PUBLIC_STRIPE_PRICE_LOOKUP_KEY` /
    `STRIPE_YEARLY_PRICE_LOOKUP_KEY`). If you change a price, update
    `lib/plans.ts` too — that is what the site displays.

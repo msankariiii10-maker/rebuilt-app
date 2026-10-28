@@ -24,9 +24,7 @@ export default function TermsPage() {
     <p>You are charged at the start of each billing period (every month, or every year on the Yearly plan). You can cancel at any time from <strong>Menu → Manage billing</strong> in the program. Cancelling stops the next renewal; you keep access until the end of the period you have already paid for. On the Yearly plan we email you a reminder before each renewal.</p>
 
     <h2>4. Refunds</h2>
-    <p><strong>Yearly plan:</strong> if you ask within 14 days of a yearly payment (your first one or a renewal), we refund it in full and end your access. After 14 days there is no refund, but you can cancel so the plan does not renew.</p>
-    <p><strong>Monthly plan:</strong> monthly payments are not refunded; cancel anytime to stop the next charge.</p>
-    <p>To ask for a refund, email us from the address on your account.</p>
+    <p>Payments are not refunded, on either the Monthly or the Yearly plan. You can cancel at any time to stop the next renewal, and you keep access until the end of the period you have already paid for.</p>
 
     <h2>5. Account responsibilities</h2>
     <p>You're responsible for keeping your login credentials secure and for the accuracy of the information you provide, including your intake screening answers. Providing false information during screening (for example, hiding a red-flag symptom) is at your own risk.</p>

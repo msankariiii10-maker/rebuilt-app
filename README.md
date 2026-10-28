@@ -11,8 +11,9 @@ a real Stripe Checkout Session.
   (`app/globals.css`) instead of scattered inline styles.
 - **Legal pages** (`/legal/privacy`, `/legal/terms`, `/legal/medical`) —
   same content as before, now real routes with a shared nav.
-- **Real checkout** (`/checkout`) — $19.99/month, creates an actual
-  Stripe Checkout Session via `/api/create-checkout-session`.
+- **Real checkout** (`/checkout`) — two plans, $9.99/month or $79/year
+  (shown as $6.58/month), creates an actual Stripe Checkout Session via
+  `/api/create-checkout-session`. Displayed prices live in `lib/plans.ts`.
 - **The program itself, wired to Supabase — not mock data:**
   - `/program` — cover page, tap to enter
   - `/program/week` — pulls real day labels (Lower Body / Upper Body /
@@ -60,13 +61,20 @@ videos are hosted somewhere like Mux/Cloudinary).
 
 ## Stripe checkout setup
 
-1. Stripe Dashboard → Product catalog → Add product → "Rebuilt Program —
-   Monthly", $19.99, Recurring, Monthly. Set its **lookup key** to
-   `rebuilt_monthly` (or change both to match).
+1. Stripe Dashboard → Product catalog → product "Rebuilt Program" with
+   two Prices:
+   - $9.99, Recurring, Monthly, **lookup key** `rebuilt_monthly`
+   - $79, Recurring, Yearly, **lookup key** `rebuilt_yearly`
+   (override with `NEXT_PUBLIC_STRIPE_PRICE_LOOKUP_KEY` /
+   `STRIPE_YEARLY_PRICE_LOOKUP_KEY`). If you change a price, update
+   `lib/plans.ts` too — that is what the site displays.
 2. Add `STRIPE_SECRET_KEY` to `.env.local` (test key while developing).
 3. Test with card `4242 4242 4242 4242`, any future expiry/CVC.
-4. Go live: swap in your live secret key once your Stripe account is
-   verified, and make sure the live Price has the same lookup key.
+4. Settings → Billing → Customer portal → **Activate** (powers the
+   member's "Manage billing" menu item, `/api/billing-portal`), and turn on
+   **renewal reminder emails** under Settings → Billing → Subscriptions and emails.
+5. Go live: swap in your live secret key once your Stripe account is
+   verified, and make sure the live Prices have the same lookup keys.
 
 ### What checkout does NOT do yet
 

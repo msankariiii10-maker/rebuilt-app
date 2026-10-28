@@ -1,8 +1,13 @@
+import { PRICES, parsePlan } from '@/lib/plans';
+
 export const metadata = {
   title: 'Join Rebuilt',
 };
 
-export default function CheckoutPage() {
+export default function CheckoutPage({ searchParams }: { searchParams: { plan?: string } }) {
+  // ?plan=yearly comes from the homepage switch; anything else starts on monthly
+  const plan = parsePlan(searchParams.plan);
+
   return (
     <main
       style={{
@@ -50,20 +55,6 @@ export default function CheckoutPage() {
           Join the community
         </h1>
 
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 24 }}>
-          <span
-            style={{
-              fontFamily: "'Fraunces', Georgia, serif",
-              fontSize: 44,
-              fontWeight: 500,
-              color: '#1A1A18',
-            }}
-          >
-            $9.99
-          </span>
-          <span style={{ fontSize: 15, color: '#8C8A83' }}>/ month</span>
-        </div>
-
         <ul style={{ listStyle: 'none', margin: '0 0 28px', padding: 0 }}>
           {[
             'Full access to your progressive strength program',
@@ -95,11 +86,33 @@ export default function CheckoutPage() {
           No client-side Stripe.js needed for this simple flow.
         */}
         <form action="/api/create-checkout-session" method="POST">
-          <input
-            type="hidden"
-            name="lookup_key"
-            value={process.env.NEXT_PUBLIC_STRIPE_PRICE_LOOKUP_KEY ?? 'rebuilt_monthly'}
-          />
+          <fieldset className="co-plans">
+            <legend>Choose your plan</legend>
+            <label className="co-plan">
+              <input type="radio" name="plan" value="monthly" defaultChecked={plan === 'monthly'} />
+              <span className="co-plan-name">
+                Monthly
+                <small>Billed every month</small>
+              </span>
+              <span className="co-plan-price">
+                {PRICES.monthly}
+                <small>/ month</small>
+              </span>
+            </label>
+            <label className="co-plan">
+              <input type="radio" name="plan" value="yearly" defaultChecked={plan === 'yearly'} />
+              <span className="co-plan-name">
+                <span>
+                  Yearly <span className="co-plan-badge">Save {PRICES.yearlySavePct}%</span>
+                </span>
+                <small>Billed {PRICES.yearly} once a year</small>
+              </span>
+              <span className="co-plan-price">
+                {PRICES.yearlyPerMonth}
+                <small>/ month</small>
+              </span>
+            </label>
+          </fieldset>
           <button
             type="submit"
             style={{

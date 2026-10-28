@@ -4,7 +4,9 @@
 import './home.css';
 import HomeScene from '@/components/HomeScene';
 import HomeVideo from '@/components/HomeVideo';
+import PlanPicker from '@/components/PlanPicker';
 import { createAdminClient } from '@/lib/supabaseAdmin';
+import { PRICES } from '@/lib/plans';
 
 // Real member stories only: notes that members wrote AND ticked "happy for Rebuilt to share anonymously".
 // Nothing shows here until a real member has agreed to share one.
@@ -63,7 +65,7 @@ export default async function HomePage() {
               </a>
             </div>
             <div className="hm-price-note">
-              <b>$9.99</b> / month · cancel anytime
+              <b>{PRICES.monthly}</b> / month, or just <b>{PRICES.yearlyPerMonth}</b> / month billed yearly · cancel anytime
             </div>
             <div className="hm-badge">
               <i />
@@ -102,18 +104,7 @@ export default async function HomePage() {
                 <br />
                 the <em>ground up.</em>
               </h2>
-              <div className="hm-price">
-                $9.99<small>/ month</small>
-              </div>
-              <div className="hm-perks">
-                <span>Progressive strength program</span>
-                <span>Levels that grow with you</span>
-                <span>Daily pain tracking</span>
-                <span>Cancel anytime</span>
-              </div>
-              <a className="hm-btn" href="/checkout">
-                Join our community →
-              </a>
+              <PlanPicker />
             </div>
           </div>
         </section>

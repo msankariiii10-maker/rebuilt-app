@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe';
+import { parsePlan, type Plan } from '@/lib/plans';
 
 // This route mirrors Stripe's own "create-checkout-session" quickstart
 // pattern, adapted to a Next.js Route Handler. It looks up your Price by
@@ -11,13 +12,16 @@ import { stripe } from '@/lib/stripe';
 // POSTs a normal HTML form to this route, same as the vanilla-HTML
 // example you'd get from Stripe's own docs.
 
+// The only Prices that can be bought. The form sends "monthly" or "yearly",
+// never a Stripe lookup key, so nobody can swap in some other Price.
+const LOOKUP_KEYS: Record<Plan, string> = {
+  monthly: process.env.NEXT_PUBLIC_STRIPE_PRICE_LOOKUP_KEY ?? 'rebuilt_monthly',
+  yearly: process.env.STRIPE_YEARLY_PRICE_LOOKUP_KEY ?? 'rebuilt_yearly',
+};
+
 export async function POST(req: NextRequest) {
   const formData = await req.formData();
-  const lookupKey = formData.get('lookup_key') as string;
-
-  if (!lookupKey) {
-    return NextResponse.json({ error: 'Missing lookup_key' }, { status: 400 });
-  }
+  const lookupKey = LOOKUP_KEYS[parsePlan(formData.get('plan'))];
 
   const origin = req.headers.get('origin') ?? process.env.NEXT_PUBLIC_SITE_URL!;
 

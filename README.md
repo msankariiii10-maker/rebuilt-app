@@ -70,9 +70,10 @@ videos are hosted somewhere like Mux/Cloudinary).
    `lib/plans.ts` too — that is what the site displays.
 2. Add `STRIPE_SECRET_KEY` to `.env.local` (test key while developing).
 3. Test with card `4242 4242 4242 4242`, any future expiry/CVC.
-4. Settings → Billing → Customer portal → **Activate** (powers the
-   member's "Manage billing" menu item, `/api/billing-portal`), and turn on
-   **renewal reminder emails** under Settings → Billing → Subscriptions and emails.
+4. "Manage billing" (`/api/billing-portal`) sets up Stripe's customer
+   portal by itself the first time it is used. Optional: turn on
+   **renewal reminder emails** under Settings → Billing → Subscriptions and
+   emails (Stripe only sends them in live mode).
 5. Go live: swap in your live secret key once your Stripe account is
    verified, and make sure the live Prices have the same lookup keys.
 

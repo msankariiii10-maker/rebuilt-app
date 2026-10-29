@@ -658,3 +658,17 @@
   .dot{ width:5px; height:5px; border-radius:50%; background:var(--border); }
   .dot.active{ background:var(--primary); width:14px; border-radius:3px; }
 
+
+/* ---------- CHECKOUT: plan choice (app/checkout/page.tsx) ---------- */
+.co-plans{ border:0; margin:0 0 22px; padding:0; display:flex; flex-direction:column; gap:10px; }
+.co-plans legend{ font-size:13px; color:#8C8A83; margin-bottom:8px; padding:0; }
+.co-plan{ display:flex; align-items:center; gap:14px; padding:14px 16px; border:1.5px solid #DEDBD3; border-radius:14px;
+  background:#FBFAF6; cursor:pointer; transition:border-color .15s, box-shadow .15s; }
+.co-plan:has(input:checked){ border-color:#C0392B; box-shadow:0 0 0 3px rgba(192,57,43,.10); }
+.co-plan input{ accent-color:#C0392B; width:18px; height:18px; margin:0; flex-shrink:0; }
+.co-plan input:focus-visible{ outline:2px solid #C0392B; outline-offset:2px; }
+.co-plan-name{ display:flex; flex-direction:column; font-size:15px; font-weight:600; color:#1A1A18; }
+.co-plan-name small, .co-plan-price small{ font-size:12.5px; font-weight:500; color:#8C8A83; font-variant-numeric:tabular-nums; }
+.co-plan-badge{ margin-left:6px; padding:2px 8px; border-radius:99px; background:#C0392B; color:#fff; font-size:11px; font-weight:700; vertical-align:1px; }
+.co-plan-price{ margin-left:auto; text-align:right; white-space:nowrap; font-family:var(--serif); font-size:22px; font-weight:500; color:#1A1A18; font-variant-numeric:tabular-nums; }
+.co-plan-price small{ display:block; font-family:var(--sans); }

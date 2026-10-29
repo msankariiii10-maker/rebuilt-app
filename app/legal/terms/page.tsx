@@ -18,13 +18,13 @@ export default function TermsPage() {
     <p>Rebuilt is intended for adults aged 18 and over. By creating an account, you confirm you meet this requirement.</p>
 
     <h2>2. What you're purchasing</h2>
-    <p>Rebuilt gives you access to a structured, self-guided exercise program (Low Back, or Low Back + Knee) for the duration of your subscription or purchase. [TODO: specify exact plan — one-time purchase, monthly subscription, etc. — once pricing is finalized.]</p>
+    <p>Rebuilt gives you access to a structured, self-guided exercise program (Low Back, or Low Back + Knee) for as long as your subscription is active. There are two plans: Monthly ($9.99, billed every month) and Yearly ($89, billed once a year). Both renew automatically until you cancel.</p>
 
     <h2>3. Billing and cancellation</h2>
-    <p>[TODO: fill in once pricing is live — billing cadence, how to cancel, whether cancellation is immediate or end-of-period.]</p>
+    <p>You are charged at the start of each billing period (every month, or every year on the Yearly plan). You can cancel at any time from <strong>Menu → Manage billing</strong> in the program. Cancelling stops the next renewal; you keep access until the end of the period you have already paid for. On the Yearly plan we email you a reminder before each renewal.</p>
 
     <h2>4. Refunds</h2>
-    <p>[TODO: state your actual refund policy — e.g. "refunds available within 14 days of purchase if you haven't progressed past Phase 1" or similar. Be specific; vague refund policies cause disputes.]</p>
+    <p>Payments are not refunded, on either the Monthly or the Yearly plan. You can cancel at any time to stop the next renewal, and you keep access until the end of the period you have already paid for.</p>
 
     <h2>5. Account responsibilities</h2>
     <p>You're responsible for keeping your login credentials secure and for the accuracy of the information you provide, including your intake screening answers. Providing false information during screening (for example, hiding a red-flag symptom) is at your own risk.</p>

@@ -1,5 +1,5 @@
 // The marketing homepage — dark "clinic" look to match the program pages, with the
-// photo-real woman + man behind it. They zoom in on scroll (see components/HomeScene.tsx).
+// real photo of Moe behind it, which dims on scroll (see components/HomeScene.tsx).
 
 import './home.css';
 import HomeScene from '@/components/HomeScene';

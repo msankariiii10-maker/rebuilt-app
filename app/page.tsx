@@ -3,7 +3,6 @@
 
 import './home.css';
 import HomeScene from '@/components/HomeScene';
-import HomeVideo from '@/components/HomeVideo';
 import PlanPicker from '@/components/PlanPicker';
 import { createAdminClient } from '@/lib/supabaseAdmin';
 import { PRICES } from '@/lib/plans';
@@ -46,22 +45,20 @@ export default async function HomePage() {
         {/* HERO */}
         <div className="hm-wrap hm-hero">
           <div className="txt">
-            <div className="hm-eyebrow">Welcome to the Rebuilt program</div>
-            <h1 className="hm-h1">
-              Not fixed.
-              <br />
-              <em>Rebuilt.</em>
+            <h1 className="hm-h1 hm-welcome">
+              <span className="pre">Welcome to the</span>
+              MSK <em>Rebuilt</em> program.
             </h1>
-            <p className="hm-lead">
-              For three years, two herniated discs turned getting out of bed, tying my shoes, even sitting through dinner into something I had to brace for.
-              If that sounds familiar, I built this for you — two months in, <b>90% of that pain was gone.</b>
+            <p className="hm-lead hm-lead-solo">
+              Nobody gets rebuilt overnight. You do it <b>brick by brick</b>: one session, one small win, one stronger day at a time.
+              That&apos;s how I rebuilt myself, and I made this program so you can too. Come build with us.
             </p>
             <div className="hm-cta-row">
               <a className="hm-btn" href="/checkout">
                 Join our community →
               </a>
-              <a className="hm-btn ghost" href="#watch">
-                Watch the story
+              <a className="hm-btn ghost" href="#story">
+                Read my story
               </a>
             </div>
             <div className="hm-price-note">
@@ -78,19 +75,31 @@ export default async function HomePage() {
           </div>
         </div>
 
-        {/* VIDEO */}
-        <section className="hm-section" id="watch">
+        {/* STORY */}
+        <section className="hm-section" id="story">
           <div className="hm-wrap">
             <div className="hm-reveal">
-              <div className="hm-sec-eyebrow">The story</div>
+              <div className="hm-sec-eyebrow">My story</div>
               <h2 className="hm-h2">
-                Why Rebuilt is <em>different</em>
+                Why I built <em>MSK Rebuilt</em>
               </h2>
             </div>
-            <div className="hm-reveal">
-              <HomeVideo />
+            <div className="hm-story hm-reveal">
+              <p>
+                My back pain started long before my diagnosis. For about three years I lived with it, and then two herniated discs made
+                everything harder for three more. I tried every solution I could find: heat packs, massages, stretching, chiropractors,
+                even physical therapy. I spent a lot of money and kept getting the same results.
+              </p>
+              <p>
+                So I stopped looking for a quick fix and started building my own. As a physical therapy student, I rebuilt my body the way
+                I was learning to help others: patiently, with purpose, <b>one small step at a time</b>. Two months in, most of my pain was
+                gone, and I finally felt like myself again.
+              </p>
+              <p>
+                That routine became MSK Rebuilt. I made it for anyone who&apos;s tried everything and is ready for something that actually
+                helps them build their way back. <b>I&apos;d love for you to be part of it.</b>
+              </p>
             </div>
-            <div className="hm-vcap hm-reveal">2–3 min · Recorded by the PT student who built it</div>
           </div>
         </section>
 

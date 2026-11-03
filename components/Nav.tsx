@@ -10,9 +10,9 @@ export default function Nav() {
   return (
     <div dangerouslySetInnerHTML={{ __html: `<nav>
   <div class="wrap">
-    <div class="logo">
-      <span>Rebu<span class="vert"></span>lt</span>
-    </div>
+    <a href="/" class="logo logo-img" aria-label="MSK Rebuilt home">
+      <img src="/brand/msk-rebuilt.png" alt="MSK Rebuilt" width="417" height="136" />
+    </a>
     <div class="nav-links nav-mobile-hide" style="display:flex; align-items:center; gap:18px;">
       <a href="/login" class="nav-signin">Sign in</a>
       <div style="position:relative;">

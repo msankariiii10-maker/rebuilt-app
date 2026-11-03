@@ -71,6 +71,8 @@
     transform:translateY(1px);
   }
   .logo .dot{ color:var(--terracotta); }
+  .logo-img img{ height:46px; width:auto; }
+  @media (max-width:640px){ .logo-img img{ height:38px; } }
   .nav-links{ display:flex; align-items:center; gap:36px; }
   .nav-links a{
     font-size:14px; color:#9A9A94; font-weight:500;

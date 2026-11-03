@@ -46,15 +46,10 @@ export default async function HomePage() {
         {/* HERO */}
         <div className="hm-wrap hm-hero">
           <div className="txt">
-            <div className="hm-eyebrow">Welcome to the Rebuilt program</div>
-            <h1 className="hm-h1">
-              Not fixed.
-              <br />
-              <em>Rebuilt.</em>
-            </h1>
-            <p className="hm-lead">
-              For three years, two herniated discs turned getting out of bed, tying my shoes, even sitting through dinner into something I had to brace for.
-              If that sounds familiar, I built this for you — two months in, <b>90% of that pain was gone.</b>
+            <h1 className="hm-eyebrow">Welcome to the Rebuilt program</h1>
+            <p className="hm-lead hm-lead-solo">
+              Nobody gets rebuilt overnight. You do it <b>brick by brick</b>: one session, one small win, one stronger day at a time.
+              That&apos;s how I rebuilt myself, and I made this program so you can too. Come build with us.
             </p>
             <div className="hm-cta-row">
               <a className="hm-btn" href="/checkout">

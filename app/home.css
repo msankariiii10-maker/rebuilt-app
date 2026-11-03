@@ -54,6 +54,8 @@ body:has(.hm-root){ background:#121211; }
 .hm-h1 em{ font-style:italic; color:var(--hm-accent); font-weight:300; }
 .hm-lead{ color:var(--hm-ink2); font-size:17px; line-height:1.7; max-width:470px; }
 .hm-lead b{ color:var(--hm-ink); font-weight:500; }
+.hm-lead-solo{ margin-top:18px; font-size:clamp(18px,1.7vw,23px); max-width:540px; }
+h1.hm-eyebrow{ margin:0; }
 .hm-cta-row{ display:flex; gap:14px; align-items:center; margin-top:34px; flex-wrap:wrap; }
 .hm-btn{ display:inline-flex; align-items:center; gap:10px; background:var(--hm-accent); color:#fff; font:600 15px var(--sans);
   padding:15px 28px; border-radius:50px; transition:transform .25s var(--hm-ease), box-shadow .25s var(--hm-ease), filter .2s; }

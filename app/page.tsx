@@ -46,16 +46,13 @@ export default async function HomePage() {
         {/* HERO */}
         <div className="hm-wrap hm-hero">
           <div className="txt">
-            <h1 className="hm-welcome">
+            <h1 className="hm-h1 hm-welcome">
               <span className="pre">Welcome to the</span>
-              <span className="big">
-                MSK <em>Rebuilt</em>
-              </span>
-              <span className="prog">Program</span>
+              MSK <em>Rebuilt</em> program.
             </h1>
             <p className="hm-lead hm-lead-solo">
-              Nobody gets rebuilt overnight. You do it <b className="hl">brick by brick</b>: one session, one small win, one stronger day at a time.
-              That&apos;s how I rebuilt myself, and I made this program so you can too. <b>Come build with us.</b>
+              Nobody gets rebuilt overnight. You do it <b>brick by brick</b>: one session, one small win, one stronger day at a time.
+              That&apos;s how I rebuilt myself, and I made this program so you can too. Come build with us.
             </p>
             <div className="hm-cta-row">
               <a className="hm-btn" href="/checkout">

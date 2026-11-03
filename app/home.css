@@ -54,8 +54,10 @@ body:has(.hm-root){ background:#121211; }
 .hm-h1 em{ font-style:italic; color:var(--hm-accent); font-weight:300; }
 .hm-lead{ color:var(--hm-ink2); font-size:17px; line-height:1.7; max-width:470px; }
 .hm-lead b{ color:var(--hm-ink); font-weight:500; }
-.hm-lead-solo{ margin-top:18px; font-size:clamp(18px,1.7vw,23px); max-width:540px; }
-h1.hm-eyebrow{ margin:0; }
+.hm-welcome{ font-size:clamp(42px,5.4vw,70px); line-height:1.04; margin:0 0 26px; }
+.hm-welcome .pre{ display:block; font:600 12px var(--sans); letter-spacing:2.2px; text-transform:uppercase; color:var(--hm-accent); margin-bottom:18px; }
+.hm-welcome .pre::before{ content:""; display:inline-block; width:28px; height:1px; background:var(--hm-accent); vertical-align:middle; margin:-2px 12px 0 0; }
+.hm-lead-solo{ font-size:clamp(17px,1.45vw,20px); line-height:1.65; max-width:500px; }
 .hm-cta-row{ display:flex; gap:14px; align-items:center; margin-top:34px; flex-wrap:wrap; }
 .hm-btn{ display:inline-flex; align-items:center; gap:10px; background:var(--hm-accent); color:#fff; font:600 15px var(--sans);
   padding:15px 28px; border-radius:50px; transition:transform .25s var(--hm-ease), box-shadow .25s var(--hm-ease), filter .2s; }

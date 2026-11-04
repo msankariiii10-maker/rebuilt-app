@@ -1,9 +1,10 @@
 // Tiny analytics helper for the /start (QR hoodie) page.
 //
-// PREVIEW: no analytics service is connected yet. Every event is collected in
-// window.__mskEvents (and logged to the console while developing) so the page is
-// ready to report as soon as a service is picked. To connect one later, add a single
-// line in send() below (for example Vercel Web Analytics' track()).
+// Events go to Vercel Web Analytics as custom events (shown in Vercel > Analytics > Events;
+// custom events may need a paid Vercel plan; page visits are counted on every plan).
+// They are also kept in window.__mskEvents and logged to the console while developing.
+
+import { track as vercelTrack } from '@vercel/analytics';
 
 type Props = Record<string, string | number | boolean | null | undefined>;
 
@@ -19,6 +20,9 @@ function send(name: string, props: Props) {
   window.__mskEvents = window.__mskEvents || [];
   window.__mskEvents.push({ name, props, at: Date.now() });
   if (process.env.NODE_ENV !== 'production') console.debug('[track]', name, props);
+  const data: Record<string, string | number | boolean | null> = {};
+  for (const [k, v] of Object.entries(props)) if (v !== undefined) data[k] = v;
+  vercelTrack(name, data);
 }
 
 /** Works out where the visitor came from and remembers it for this visit. */

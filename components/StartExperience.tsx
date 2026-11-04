@@ -18,12 +18,10 @@ type Region = {
   dots: [number, number][]; // hotspot positions in the 240 x 520 body viewBox
 };
 
+// MSK Rebuilt covers three areas. Only the lower back program is live right now.
 const REGIONS: Region[] = [
   { id: 'lower-back', label: 'Lower back', active: true, dots: [[120, 212]] },
-  { id: 'neck', label: 'Neck', active: false, dots: [[120, 70]] },
   { id: 'shoulders', label: 'Shoulders', active: false, dots: [[78, 100], [162, 100]] },
-  { id: 'upper-back', label: 'Upper back', active: false, dots: [[120, 132]] },
-  { id: 'hips', label: 'Hips', active: false, dots: [[92, 250], [148, 250]] },
   { id: 'knees', label: 'Knees', active: false, dots: [[105, 372], [135, 372]] },
 ];
 
@@ -143,7 +141,7 @@ export default function StartExperience() {
               <h2 className="st-h2">
                 What are we <span className="red">rebuilding</span> today?
               </h2>
-              <p className="st-note">Tap the glowing area to begin. More programs are on the way.</p>
+              <p className="st-note">Tap the glowing area to begin. Knees and shoulders are coming soon.</p>
             </div>
             <div className={`st-body${lowerBack ? ' picked' : ''}`}>
               <svg viewBox="0 0 240 520" role="img" aria-label="Body map. Lower back is available.">
